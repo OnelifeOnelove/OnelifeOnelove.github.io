@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>❀ 爱玩的心™深不见底°</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Lomo,"> 
+    <meta name="description" content="官方文档
+
+官网上对于版本之类的没有进行说明，开始踩了一些坑，compile各种报错，最后发现是angular版本之类的问题导致的包依赖不存在，感觉官方文档是写给大佬看的，对于初学者不是很友好。总之,"> 
+    <meta name="author" content="浅色"> 
+    <link rel="alternative" href="atom.xml" title="❀ 爱玩的心™深不见底°" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.ico"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Mysql复习（二）</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Mysql复习（二）</h1>
+        <div class="stuff">
+            <span>六月 12, 2018</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Mysql/">Mysql</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>先写一些题外话做铺垫。</p>
+<blockquote>
+<p>1 Bit = 一个二进制数据，也就是位，也就是0或1，对于计算机来说，只认识0和1</p>
+</blockquote>
+<blockquote>
+<p>1 Byte =  8 Bit，也就是字节</p>
+</blockquote>
+<blockquote>
+<p>1 英文字母或数字或符号 =  1 Byte</p>
+</blockquote>
+<blockquote>
+<p>1 中文 = 2或者3 Byte （UTF-8是3个，视编码而定）</p>
+</blockquote>
+<blockquote>
+<p>字节是网络传输中信息的计量单位，字符是对于人来说看到的，一个字，一个字母，一个符号等等就是一个字符</p>
+</blockquote>
+<h2 id="Mysql字段"><a href="#Mysql字段" class="headerlink" title="Mysql字段"></a>Mysql字段</h2><p>字段类型及占用大小具体见<a href="https://www.cnblogs.com/ghjbk/p/6681470.html" target="_blank" rel="noopener">链接</a>或者<a href="https://dev.mysql.com/doc/refman/5.7/en/storage-requirements.html#data-types-storage-reqs-strings" target="_blank" rel="noopener">官方文档</a></p>
+<h3 id="char与varchar"><a href="#char与varchar" class="headerlink" title="char与varchar"></a>char与varchar</h3><p>char与varchar存储mysql的限制都是字节数，但是在建表的时候我们给的限制是字符长度，这个一定要注意。</p>
+<ul>
+<li><p>char</p>
+<p>  char在mysql中的存储限制为0～255个<strong>_字节_</strong>，但是我们在创建表字段的时候设置的是字符长度，而不是字节长度，比如char(10)，这里我们设置的是字符的长度，字节长度是大于等于这个长度的。为什么是255，而不是256，因为头部的1个字节是用来表示长度的，char是定长的，如果未占满，后面的都用空格填充，查询的时候去掉多余空格，如果为空也是占用一个字节长度。</p>
+</li>
+<li><p>varchar</p>
+<p>  varchar在mysql中的存储限制是65535，1个字节也是存储长度的，但是，255以内的字节只用1个字节就可表示长度，但是如果大于255字节，那么要用2个字节表示长度，也就是限制编程了65534，有时候我们会给varchar加一个不为空限制，这样的话又会多占用1个字节，这时候限制变成了65533，另外需要注意的是如果建表的时候设置varchar(65535)，这里的65535是字符数，明显超过了65535的字节限制，mysql会在不超出当前行限制的前提下帮我们自动转为text，同时生成一个warning信息，<a href="https://www.cnblogs.com/wenlj/p/4922777.html" target="_blank" rel="noopener">参见</a>。</p>
+</li>
+</ul>
+<blockquote>
+<p>char效率更高一点，varchar虽然更灵活，只限制于硬盘，因为它是多大就占用多少磁盘空间，但是如果在和java等后台程序交互的时候，也就是到了内存中占用的大小是设置的最大大小，所以定长或者长度幅度很小的字段建议设置char，<a href="https://blog.csdn.net/imzoer/article/details/8435540" target="_blank" rel="noopener">参见</a>。</p>
+</blockquote>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/1304716261.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/163/30987703.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
