@@ -29,7 +29,7 @@ Doker，通俗点理解就是虚拟容器，与传统虚拟机实现（Vmware等
     <div class="bar" style="width: 0;"></div>
     <a class="icon-home image-icon" href="javascript:;"></a>
     <div title="播放/暂停" class="icon-play"></div>
-    <h3 class="subtitle">MAC使用命令行连接远程服务器并实现上传下载</h3>
+    <h3 class="subtitle">Docker入门（一）</h3>
     <div class="social">
         <!--<div class="like-icon">-->
             <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
@@ -46,27 +46,28 @@ Doker，通俗点理解就是虚拟容器，与传统虚拟机实现（Vmware等
     <div class="section">
         <div class="article">
     <div class='main'>
-        <h1 class="title">MAC使用命令行连接远程服务器并实现上传下载</h1>
+        <h1 class="title">Docker入门（一）</h1>
         <div class="stuff">
-            <span>十月 16, 2018</span>
+            <span>十月 18, 2018</span>
             
-  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/MAC/">MAC</a></li></ul>
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Docker/">Docker</a></li></ul>
 
 
         </div>
         <div class="content markdown">
             <blockquote>
-<p>之前使用Windows笔记本的时候和Mac使用初期，连接远程Linux服务器都使用的诸如CRT或者Xshell这类图形化工具，自从Xshell收费之后，Mac上也使用了一些破解版的ssh连接管理软件，老感觉差点什么。Mac本身提供了远程ssh连接功能，并能实现文件上传和下载，对于程序员很有帮助。</p>
+<p>Doker，通俗点理解就是虚拟容器，与传统虚拟机实现（Vmware等）相比它更轻量化，可以提供一个简化版的系统环境，供软件运行使用。官方将Docker比喻成集装箱，寓意为方便，隔离。</p>
 </blockquote>
-<h3 id="连接远程主机"><a href="#连接远程主机" class="headerlink" title="连接远程主机"></a>连接远程主机</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ssh 用户名@远程主机ip</span><br><span class="line">ssh root@0.0.0.0</span><br></pre></td></tr></table></figure>
-<h3 id="文件上传和下载"><a href="#文件上传和下载" class="headerlink" title="文件上传和下载"></a>文件上传和下载</h3><ul>
-<li>向服务器上传文件</li>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>  Docker安装可以参考官方的documention，上面介绍了3种安装方式，我这里就写一下最简单的安装方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://get.docker.com -o get-docker.sh</span><br><span class="line">sudo sh get-docker.sh</span><br><span class="line"># 查看docker信息</span><br><span class="line">docker version</span><br></pre></td></tr></table></figure>
+<h3 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h3><ul>
+<li><p>镜像（image）<br>一个可以独立运行的特殊文件系统，它是静态的，我们可以从官方仓库拉取一些基础镜像，然后把我们的应用放入其中，打造一个新的包含我们饮用的镜像。</p>
+</li>
+<li><p>容器（container）<br>一个镜像运行起来后就是一个镜像，这就跟Java中类跟对象的关系一般，镜像有一个，但是我可以多起几个容器，即：容器是运行中的镜像。</p>
+</li>
+<li><p>仓库（repository）<br>Docker Registry是一个集中管理镜像服务的地方，它其中可以有多个仓库，每个仓库中存储的都是镜像，默认以<em>仓库</em>:<em>标签</em>的方式定位一个镜像。在docker中，要删除一个镜像，就要先关闭当前镜像开启的容器，然后用rmi id删除镜像，rm是删除容器，如果一个镜像挂载到多个仓库，那么可以rmi 仓库:标签的方式进行删除。</p>
+</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># scp -r 本地文件路径 远程主机用户@远程主机ip:远程文件路径</span><br><span class="line"># -r上传目录有用，上传单文件可以不加</span><br><span class="line">scp /user/logo.png root@0.0.0.0:/usr/</span><br></pre></td></tr></table></figure>
-<ul>
-<li>从服务器下载文件</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># scp -r 用户名@远程主机ip:远程文件路径 本地文件路径</span><br><span class="line"># -r下载目录有用，下载单文件可以不加</span><br><span class="line">scp root@0.0.0.0:/usr/test /user/</span><br></pre></td></tr></table></figure>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
