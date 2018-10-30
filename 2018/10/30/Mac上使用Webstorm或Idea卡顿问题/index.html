@@ -27,7 +27,7 @@
     <div class="bar" style="width: 0;"></div>
     <a class="icon-home image-icon" href="javascript:;"></a>
     <div title="播放/暂停" class="icon-play"></div>
-    <h3 class="subtitle">Angular处理多个异步请求</h3>
+    <h3 class="subtitle">Mac上使用Webstorm或Idea卡顿问题</h3>
     <div class="social">
         <!--<div class="like-icon">-->
             <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
@@ -44,24 +44,33 @@
     <div class="section">
         <div class="article">
     <div class='main'>
-        <h1 class="title">Angular处理多个异步请求</h1>
+        <h1 class="title">Mac上使用Webstorm或Idea卡顿问题</h1>
         <div class="stuff">
-            <span>九月 26, 2018</span>
+            <span>十月 30, 2018</span>
             
-  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Angular/">Angular</a></li></ul>
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Mac/">Mac</a></li></ul>
 
 
         </div>
         <div class="content markdown">
-            <p>背景：项目采用的app混合开发，h5开发采用的框架是Ionic3 + Angular5，在某些情况下会有多个异步请求同时发出，返回结果可能会产生关系依赖，暂且不说后台接口设计的问题，就从前端的角度出发，我们可以使用Angular为我们提供的一些库来解决上述问题。</p>
-<hr>
-
-<p>最先想到的解决办法就是嵌套，这种弊端就在于代码让人难以阅读和维护，我们来看看Angular中是怎么处理的：</p>
-<h4 id="mergeMap"><a href="#mergeMap" class="headerlink" title="mergeMap"></a>mergeMap</h4><p>它可以将当前的Observable对象返回给父级流对象，然后进行数据交互操作：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">this.http.get(&apos;url1&apos;).mergeMap(parent =&gt; &#123;</span><br><span class="line">       // 这是父级数据的返回，我们可以做一些操作</span><br><span class="line">       return this.http.get(`url2?id=$&#123;parent&#125;`);</span><br><span class="line">   &#125;)</span><br><span class="line">   .subscribe(result =&gt; console.log(result));</span><br></pre></td></tr></table></figure>
-<h4 id="forkJoin"><a href="#forkJoin" class="headerlink" title="forkJoin"></a>forkJoin</h4><p>forkJoin会接受一组Observable对象，然后并行地处理它们，一旦所有的Observable对象都返回值，它会将所有的值以对应列表的形式返回：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const requestOne = this.http.get(&apos;url1&apos;);</span><br><span class="line">const requestAnother = this.http.get(&apos;url2&apos;);</span><br><span class="line">Observable.forkJoin([requestOne, requestAnother]).subscribe(results =&gt; &#123;</span><br><span class="line">    // 解构赋值</span><br><span class="line">    const [one, another] = results;</span><br><span class="line">    console.log(one, another);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>forkJoin是一次性返回多个异步请求的结果，结果列表与请求列表是一一对应的。</p>
+            <blockquote>
+<p>背景：Mac本上安装了JetBrains家的Idea以及WebStorm，升级新系统Mojave后开始喜新厌旧了，直接将旧版本的这两个直接卸载了，重新安装最新的EAP版本（免费的旗舰版，但是每个月会失效，要重新安装一次）。安装之后发现码字有2-3s的延迟，开始以为是版本问题，重新下载了18年1月版的发现同样存在延迟问题，研究了下问题终于解决，记下来以备后用。</p>
+</blockquote>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p>  开始想着是软件优化问题，大家都知道JetBrains家的产品是好用，但是吃内存，所以Google一下进行优化：</p>
+<ul>
+<li><p>配置优化</p>
+<p>  关闭自动更新，统计，不用的功能或plugin等，总之是一切与当前工作无关的尽量关掉。</p>
+</li>
+<li><p>启动参数优化</p>
+<p>  工具栏Help-&gt;Edit Custom VM Options，配置改为一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-Xms1024m</span><br><span class="line">-Xmx1536m</span><br><span class="line">-XX:MaxPermSize=1024m</span><br><span class="line">-XX:ReservedCodeCacheSize=512m</span><br><span class="line">-XX:+UseCompressedOops</span><br><span class="line">-Dfile.encoding=UTF-8</span><br><span class="line">-XX:+UseConcMarkSweepGC</span><br><span class="line">-XX:SoftRefLRUPolicyMSPerMB=50</span><br><span class="line">-ea</span><br><span class="line">-Dsun.io.useCanonCaches=false</span><br><span class="line">-Djava.net.preferIPv4Stack=true</span><br><span class="line">-Djdk.http.auth.tunneling.disabledSchemes=&quot;&quot;</span><br><span class="line">-XX:+HeapDumpOnOutOfMemoryError</span><br><span class="line">-XX:-OmitStackTraceInFastThrow</span><br><span class="line">-XX:MaxJavaStackTraceDepth=10000</span><br><span class="line">-Xverify:none</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="延迟解决"><a href="#延迟解决" class="headerlink" title="延迟解决"></a>延迟解决</h3><p>优化后重启发现延迟依然存在，在Google的时候发现一个观点说Mac的分辨率会影响JetBrains家的卡顿，双方都存在问题，遂把字体改大后发现没有卡顿了。但是实在不喜欢调大后的Mac界面，偶尔一次修改WebStorm的字体发现问题不存在了：</p>
+<p>我在安装了WebStorm之后是安装了Material Theme UI，使用了其中的Ocean主题，修改字体为Meslo LG后发现延迟问题不存在了。</p>
+<blockquote>
+<p>总结：修改的这个字体是我美化Iterm2 + oh my zsh时候安装的，所以猜测是Mac字体调小后使用WebStorm部分字体会有延迟现象。</p>
+</blockquote>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
