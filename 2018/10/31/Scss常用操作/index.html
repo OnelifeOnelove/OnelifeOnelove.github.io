@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>❀ 爱玩的心™深不见底°</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Lomo,"> 
+    <meta name="description" content="
+Scss常用到的一些函数及操作。
+
+变量声明及使用123456789101112131415161718192021/*** scss ***/$width: 1px;$width2: 2px;$,"> 
+    <meta name="author" content="浅色"> 
+    <link rel="alternative" href="atom.xml" title="❀ 爱玩的心™深不见底°" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.ico"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+<link rel="stylesheet" href="/css/ocean.css">
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Scss常用操作</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Scss常用操作</h1>
+        <div class="stuff">
+            <span>十月 31, 2018</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Scss/">Scss</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>Scss常用到的一些函数及操作。</p>
+</blockquote>
+<h3 id="变量声明及使用"><a href="#变量声明及使用" class="headerlink" title="变量声明及使用"></a>变量声明及使用</h3><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*** scss ***/</span></span><br><span class="line"><span class="variable">$width</span>: <span class="number">1px</span>;</span><br><span class="line"><span class="variable">$width2</span>: <span class="number">2px</span>;</span><br><span class="line"><span class="variable">$pos</span>: bottom;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.aa</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="variable">$width</span>;  <span class="comment">// 常规使用</span></span><br><span class="line">    <span class="attribute">border</span>-#&#123;<span class="variable">$pos</span>&#125;: <span class="number">1px</span> solid red;  <span class="comment">// 拼字符串</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.bb</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="variable">$width</span> + <span class="variable">$width2</span>;  <span class="comment">// 用于计算</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*** css ***/</span></span><br><span class="line"><span class="selector-class">.aa</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">1px</span>;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid red;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.bb</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">3px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="嵌套"><a href="#嵌套" class="headerlink" title="嵌套"></a>嵌套</h3><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 选择器嵌套</span></span><br><span class="line"><span class="selector-tag">div</span>&#123;  </span><br><span class="line">    <span class="attribute">color</span>: red;</span><br><span class="line">    <span class="selector-tag">p</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: green;</span><br><span class="line">    &#125;</span><br><span class="line">    &amp;:hover&#123;</span><br><span class="line">        <span class="attribute">color</span>: blue;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 属性嵌套</span></span><br><span class="line"><span class="selector-class">.div</span>&#123;  </span><br><span class="line"><span class="comment">//注：嵌套属性后面必须写冒号 如：border：</span></span><br><span class="line">  <span class="attribute">border</span>: &#123;    </span><br><span class="line">    style: solid;</span><br><span class="line">    <span class="attribute">left</span>: &#123;</span><br><span class="line">      width: <span class="number">4px</span>;</span><br><span class="line">      <span class="attribute">color</span>: <span class="number">#888</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="颜色函数"><a href="#颜色函数" class="headerlink" title="颜色函数"></a>颜色函数</h3><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lighten(<span class="selector-id">#cc3</span>, 10%);  <span class="comment">//颜色变浅</span></span><br><span class="line">darken(<span class="selector-id">#cc3</span>, 10%);   <span class="comment">//颜色加深</span></span><br><span class="line">grayscale(<span class="selector-id">#cc3</span>);     <span class="comment">//灰度</span></span><br><span class="line">complement(<span class="selector-id">#cc3</span>);    <span class="comment">//反色</span></span><br></pre></td></tr></table></figure>
+<h3 id="extend"><a href="#extend" class="headerlink" title="extend"></a>extend</h3><p>继承目标选择器的所有样式（!optional防止空样式编译报错）</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.margin-top-10</span> &#123;</span><br><span class="line">    <span class="attribute">margin-top</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    @<span class="keyword">extend</span> .margin-top-10!optional</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="mixin"><a href="#mixin" class="headerlink" title="mixin"></a>mixin</h3><ul>
+<li>不带参数</li>
+</ul>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">mixin</span> margin-top-10 &#123;</span><br><span class="line">    <span class="attribute">margin-top</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.margin-top-10</span> &#123;</span><br><span class="line">    @<span class="keyword">include</span> margin-top-10;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>带参数</li>
+</ul>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*** 参数为数组 ***/</span></span><br><span class="line"><span class="variable">$margin</span>: <span class="number">10px</span>;</span><br><span class="line"><span class="variable">$border</span>: none;</span><br><span class="line">@<span class="keyword">mixin</span> aa(<span class="variable">$margin</span>, <span class="variable">$border</span>) &#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="variable">$margin</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="variable">$border</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.bb</span> &#123;</span><br><span class="line">    @<span class="keyword">include</span> aa(<span class="variable">$margin</span>, <span class="variable">$border</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*** 参数为对象 ***/</span></span><br><span class="line"><span class="variable">$map</span>: (left: <span class="number">10px</span>, border: none);</span><br><span class="line">@<span class="keyword">mixin</span> cc(<span class="variable">$left</span>, <span class="variable">$border</span>) &#123;</span><br><span class="line">    <span class="attribute">left</span>: <span class="variable">$left</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="variable">$border</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.dd</span> &#123;</span><br><span class="line">    @<span class="keyword">include</span> cc(<span class="variable">$map</span>...);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*** 默认参数 ***/</span></span><br><span class="line">@<span class="keyword">mixin</span> ee(<span class="variable">$left</span>: 10px) &#123;</span><br><span class="line">    <span class="attribute">left</span>: <span class="variable">$left</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.ff</span> &#123;</span><br><span class="line">    @<span class="keyword">include</span> ee();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="function"><a href="#function" class="headerlink" title="function"></a>function</h3><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*** scss ***/</span></span><br><span class="line"><span class="variable">$width</span>: <span class="number">20px</span>;</span><br><span class="line">@function fun(<span class="variable">$width</span>) &#123;</span><br><span class="line">    @return <span class="variable">$width</span> * 2;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: fun(<span class="variable">$width</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*** css ***/</span></span><br><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">40px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/1304716261.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/163/30987703.mp3'></li>
+                    
+                        <li title='2' data-url='http://link.hhtjim.com/163/32337953.mp3'></li>
+                    
+                        <li title='3' data-url='http://link.hhtjim.com/163/34152579.mp3'></li>
+                    
+                        <li title='4' data-url='http://link.hhtjim.com/163/35807051.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script src="/js/init.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
