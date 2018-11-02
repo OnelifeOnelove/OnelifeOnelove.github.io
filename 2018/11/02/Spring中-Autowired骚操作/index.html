@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>❀ 爱玩的心™深不见底°</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Lomo,"> 
+    <meta name="description" content="
+昨天在Java交流群里看一位群友问了个问题，看了半天虽然知道是什么意思，但是又说不上来，很懵逼，特意Google了一下get到一个骚操作。
+
+一般后台开发都会分层，并且基于接口进行调用，比如在Se,"> 
+    <meta name="author" content="浅色"> 
+    <link rel="alternative" href="atom.xml" title="❀ 爱玩的心™深不见底°" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.ico"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+<link rel="stylesheet" href="/css/ocean.css">
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Spring中@Autowired骚操作</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Spring中@Autowired骚操作</h1>
+        <div class="stuff">
+            <span>十一月 02, 2018</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Spring/">Spring</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>昨天在Java交流群里看一位群友问了个问题，看了半天虽然知道是什么意思，但是又说不上来，很懵逼，特意Google了一下get到一个骚操作。</p>
+</blockquote>
+<p>一般后台开发都会分层，并且基于接口进行调用，比如在Service中调用Dao或者Controller中调用Service，我们都会使用@Autowired或者@Resource进行注入，然后用注入的对象去操作，这位群友提出的问题是：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 多个class实现了PService，然后都注入进来了，并且map的key被重写了</span></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> Map&lt;String, PService&gt; map;</span><br></pre></td></tr></table></figure>
+<p>首先分析一下，问题拆分成两点：</p>
+<ol>
+<li>使用map，为什么实现了PService接口的类都被注入进来了；</li>
+<li>注入进来后map的key本来是什么，为什么可以重写。</li>
+</ol>
+<h3 id="第一个问题"><a href="#第一个问题" class="headerlink" title="第一个问题"></a>第一个问题</h3><p>对于Spring的注入还只是知道一些常规操作，其实有一种特殊注入，就是List，Set或者Map，对于一个多实现的接口进行注入的时候，如果采用我们常规的接口对象注入，在没有指定qualifier的情况下Spring会直接抛出错误，如果使用特殊注入，Spring会将所有实现全部注入进来（List和Set直接存放就可以，取得时候可以配合@Order进行使用，map在存放的时候key默认是实现类的首字母小写，value是实现对象，直接get(name)就可以使用）。</p>
+<p><a href="https://dzone.com/articles/spring-injecting-lists-maps" target="_blank" rel="noopener">参考地址</a></p>
+<h3 id="第二个问题"><a href="#第二个问题" class="headerlink" title="第二个问题"></a>第二个问题</h3><p>注入的实现无非是构造注入或者set注入，那我们在注入的时候是不是可以做一点什么操作，去变相的修改map本身默认的key，或者以List或者Set进行注入，然后存放到一个map中，那么重写的key哪儿来，我们可以在接口中定义一个方法返回key，在多实现类中进行实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyInterface</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getKey</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> ImplA implements MyInterface&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getKey</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> ImplB implements MyInterface&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getKey</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> MapHolder&#123;</span><br><span class="line">    <span class="meta">@Autowire</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;MyInterface&gt; myAutowireList;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Map&lt;Integer, MyInterface&gt; myAutowireMap;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">mapHolder</span><span class="params">()</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostConstruct</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(MyInterface ob : myAutowireList)&#123;</span><br><span class="line">            myAutowireMap.put(ob.getKey(),ob);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://stackoverflow.com/questions/35547719/specifing-the-keys-of-a-map-when-autowiring-in-spring" target="_blank" rel="noopener">参考地址</a></p>
+<blockquote>
+<p>这么写感觉很炫，但仔细想想，这样做无非就类似spring的factory一样，把类放入工厂，重新包装了一遍，完全没有我们之前的实现类直接引入更让人理解，而且多实现的类注入到一个类里边，这个是不是设计上的问题？</p>
+</blockquote>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/1304716261.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/163/30987703.mp3'></li>
+                    
+                        <li title='2' data-url='http://link.hhtjim.com/163/32337953.mp3'></li>
+                    
+                        <li title='3' data-url='http://link.hhtjim.com/163/34152579.mp3'></li>
+                    
+                        <li title='4' data-url='http://link.hhtjim.com/163/35807051.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script src="/js/init.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
