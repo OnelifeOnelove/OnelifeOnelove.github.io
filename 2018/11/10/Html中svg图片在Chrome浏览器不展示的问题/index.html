@@ -30,7 +30,7 @@ img标签展,">
     <div class="bar" style="width: 0;"></div>
     <a class="icon-home image-icon" href="javascript:;"></a>
     <div title="播放/暂停" class="icon-play"></div>
-    <h3 class="subtitle">Docker入门（一）</h3>
+    <h3 class="subtitle">Html中svg图片在Chrome浏览器不展示的问题</h3>
     <div class="social">
         <!--<div class="like-icon">-->
             <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
@@ -47,28 +47,28 @@ img标签展,">
     <div class="section">
         <div class="article">
     <div class='main'>
-        <h1 class="title">Docker入门（一）</h1>
+        <h1 class="title">Html中svg图片在Chrome浏览器不展示的问题</h1>
         <div class="stuff">
-            <span>十月 18, 2018</span>
+            <span>十一月 10, 2018</span>
             
-  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Docker/">Docker</a></li></ul>
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Css/">Css</a></li></ul>
 
 
         </div>
         <div class="content markdown">
             <blockquote>
-<p>Doker，通俗点理解就是虚拟容器，与传统虚拟机实现（Vmware等）相比它更轻量化，可以提供一个简化版的系统环境，供软件运行使用。官方将Docker比喻成集装箱，寓意为方便，隔离。</p>
+<p>昨天在做一个div的背景时，为了自适应图片是切的svg，然后在我的电脑上图片就是不显示，美工在自己电脑上实验可以直接展示，不同的地方在于他用的国产浏览器，我用的Chrome浏览器。</p>
 </blockquote>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>  Docker安装可以参考官方的documention，上面介绍了3种安装方式，我这里就写一下最简单的安装方式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://get.docker.com -o get-docker.sh</span><br><span class="line">sudo sh get-docker.sh</span><br><span class="line"># 查看docker信息</span><br><span class="line">docker version</span><br></pre></td></tr></table></figure>
-<h3 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h3><ul>
-<li><p>镜像（image）<br>一个可以独立运行的特殊文件系统，它是静态的，我们可以从官方仓库拉取一些基础镜像，然后把我们的应用放入其中，打造一个新的包含我们饮用的镜像。</p>
-</li>
-<li><p>容器（container）<br>一个镜像运行起来后就是一个镜像，这就跟Java中类跟对象的关系一般，镜像有一个，但是我可以多起几个容器，即：容器是运行中的镜像。</p>
-</li>
-<li><p>仓库（repository）<br>Docker Registry是一个集中管理镜像服务的地方，它其中可以有多个仓库，每个仓库中存储的都是镜像，默认以<em>仓库</em>:<em>标签</em>的方式定位一个镜像。在docker中，要删除一个镜像，就要先关闭当前镜像开启的容器，然后用rmi id删除镜像，rm是删除容器，如果一个镜像挂载到多个仓库，那么可以rmi 仓库:标签的方式进行删除。</p>
-</li>
+<h3 id="img标签展示"><a href="#img标签展示" class="headerlink" title="img标签展示"></a>img标签展示</h3><p>打开svg文件，其中也就是存储着base64格式的字符串，创建一个img标签，直接复制base64中的字符串到img src中，发现图片可以展示。</p>
+<h3 id="background-image展示"><a href="#background-image展示" class="headerlink" title="background image展示"></a>background image展示</h3><p>Google发现png图片在转为svg的时候会有格式上的问题，在MacOS系统下的浏览器上展示有问题的svg会有不展示的问题存在，解决方式有以下两种：</p>
+<ul>
+<li>将background中的url路径直接换为svg中的base64字符串</li>
 </ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.bg</span> &#123;</span><br><span class="line">    // 原始</span><br><span class="line">    <span class="selector-tag">background</span>: <span class="selector-tag">url</span>(<span class="selector-tag">bg</span><span class="selector-class">.svg</span>);</span><br><span class="line">    // 替换为(url中的字符串从svg中可以找到)</span><br><span class="line">    background: url('data:img/png;base64,=====LONG BASE 64 ENCODE HERE=====');</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改svg</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 原始</span><br><span class="line">xlink:href=&quot;data:img/png;base64,</span><br><span class="line">// 修改为</span><br><span class="line">xlink:href=&quot;data:image/png;base64,</span><br></pre></td></tr></table></figure>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
