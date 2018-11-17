@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>❀ 爱玩的心™深不见底°</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Lomo,"> 
+    <meta name="description" content="
+Bootstrap，目前最为流行的前端样式框架，强大的封装，使前端开发变得更简单。
+
+V4之前是用Less写的，V4改用Scss，（Less，Sass就不说了，有兴趣的可以去官网看一下），Boot,"> 
+    <meta name="author" content="浅色"> 
+    <link rel="alternative" href="atom.xml" title="❀ 爱玩的心™深不见底°" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.ico"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+<link rel="stylesheet" href="/css/ocean.css">
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Bootstrap源码解析（一）</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Bootstrap源码解析（一）</h1>
+        <div class="stuff">
+            <span>十一月 17, 2018</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Css/">Css</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>Bootstrap，目前最为流行的前端样式框架，强大的封装，使前端开发变得更简单。</p>
+</blockquote>
+<p>V4之前是用Less写的，V4改用Scss，（Less，Sass就不说了，有兴趣的可以去官网看一下），Bootstrap官方文档里详细介绍了其使用，全局样式设置，布局，内容和各种封装好的开箱即用组件等等。但是在实际使用中，写出来的样式与美工的设计老感觉差很多，这时候就需要我们自己修改一些样式或者自己封装css，既然Bootstrap提供了如此方便的样式封装，同时也可以自行扩展，能无缝进行升级，我们可以在此基础上进行二次封装，当然前提是了解别人的原理。</p>
+<h3 id="下载Bootstrap源码"><a href="#下载Bootstrap源码" class="headerlink" title="下载Bootstrap源码"></a>下载Bootstrap源码</h3><p><a href="https://v4.bootcss.com/docs/4.0/getting-started/download/" target="_blank" rel="noopener">下载链接</a> 选择源码版本下载</p>
+<h3 id="结构分析"><a href="#结构分析" class="headerlink" title="结构分析"></a>结构分析</h3><p>其他的文件夹暂时不看，我们只关注<em>scss</em>这个文件夹，所有的样式源码都是在这个里边，结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">scss</span><br><span class="line">│   _alert.scss</span><br><span class="line">│   _badge.scss   </span><br><span class="line">│	...</span><br><span class="line">│	bootstrap.scss</span><br><span class="line">└───utilities</span><br><span class="line">│   │   _align.scss</span><br><span class="line">│   │   _position.scss</span><br><span class="line">│   │	...</span><br><span class="line">└───mixins</span><br><span class="line">    │   _alert.scss</span><br><span class="line">    │   _badge.scss</span><br><span class="line">    │	...</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>mixins</p>
+<p>这里边存放的是一些组件公用代码块。因为Bootstrap把颜色分为primary，info，warning，danger等多个级别，也就是它的组件可以在多颜色间切换，根据DRY原则直接进行了封装，只需要传入对应颜色参数即可。</p>
+</li>
+<li><p>utilities</p>
+<p>这里边是一些展示实用封装，比如position，display，float等，相当于基础展示封装。</p>
+</li>
+<li><p>scss下的直属scss文件</p>
+<p>这里边分三种：一种直接是组件，他们是使用的mixins中封装好的代码块加上一些特定样式组成开箱即用组件；另一种是bootstrap开头的文件，v4之前版本只有把bootstrap.scss文件，它是引用所有的scss源码，最后对这个文件进行编译生成最终css，v4之后变成三个文件bootstrap.scss，bootstrap-grid.scss，bootstrap-reboot.scss，应该是出于模块化考虑，你可以只使用它的grid或者reboot；第三种就是function或者variables等文件，这是定义一些基础函数和变量声明的地方，我们要定制自己的样式的话，主要是对变量文件进行修改。</p>
+</li>
+</ul>
+<h3 id="定制化"><a href="#定制化" class="headerlink" title="定制化"></a>定制化</h3><p>打开_variables.scss文件，这是定义基础变量的文件：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$white</span>: <span class="number">#fff</span> !default;</span><br><span class="line"><span class="variable">$gray-100</span>: <span class="number">#f8f9fa</span> !default;</span><br><span class="line"><span class="variable">$gray-200</span>: <span class="number">#e9ecef</span> !default;</span><br><span class="line"><span class="variable">$gray-300</span>: <span class="number">#dee2e6</span> !default;</span><br><span class="line"><span class="variable">$gray-400</span>: <span class="number">#ced4da</span> !default;</span><br><span class="line"><span class="variable">$gray-500</span>: <span class="number">#adb5bd</span> !default;</span><br><span class="line"><span class="variable">$gray-600</span>: <span class="number">#6c757d</span> !default;</span><br><span class="line"><span class="variable">$gray-700</span>: <span class="number">#495057</span> !default;</span><br><span class="line"><span class="variable">$gray-800</span>: <span class="number">#343a40</span> !default;</span><br><span class="line"><span class="variable">$gray-900</span>: <span class="number">#212529</span> !default;</span><br><span class="line"><span class="variable">$black</span>: <span class="number">#000</span> !default;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到Bootstrap官方的颜色定义后面都加了<em>!default</em>，就是在没有提前赋值的情况下，会采用当前的默认值，也就是说，如果我们要定制化自己的样式的话，就必须在这些定义之前重写颜色变量，官方建议的做法是建立自己的custom_variables.scss文件，然后在官方的variables.scss文件引入之前引入，这样就相当于提前赋值，达到重写的目的。</p>
+<h3 id="生成定制化文件"><a href="#生成定制化文件" class="headerlink" title="生成定制化文件"></a>生成定制化文件</h3><p>在重写完成后，该如何生成我们自己的最终css文件呢：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 源码包里边有package.json文件，这里边定义了使用到的一些三方插件</span></span><br><span class="line"><span class="comment">// 进入源码包</span></span><br><span class="line">npm install</span><br><span class="line"><span class="comment">// package.json中的scripts下有dist这个命令，就是生成文件的</span></span><br><span class="line">npm run dist</span><br><span class="line"><span class="comment">// 最后在dist目录下寻找我们生成的最终文件，引入项目中即可使用</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这次主要说一下Bootstrap源码结构和定制化需要注意的地方，后面会出一篇在变量定制化过程中一些细节问题。</p>
+</blockquote>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/1304716261.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/163/30987703.mp3'></li>
+                    
+                        <li title='2' data-url='http://link.hhtjim.com/163/32337953.mp3'></li>
+                    
+                        <li title='3' data-url='http://link.hhtjim.com/163/34152579.mp3'></li>
+                    
+                        <li title='4' data-url='http://link.hhtjim.com/163/35807051.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script src="/js/init.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
