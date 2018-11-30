@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>❀ 爱玩的心™深不见底°</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Lomo,"> 
+    <meta name="description" content="
+从今天开始，利用一些空闲时间开始整理以前自己接触到的一些前端后端知识，有些是自己使用过的，有的是网上搜罗的一些，也有是书上看到的。一些东西过一段时间不用，虽然有微许印象，但是总没有那种了然于胸的感,"> 
+    <meta name="author" content="浅色"> 
+    <link rel="alternative" href="atom.xml" title="❀ 爱玩的心™深不见底°" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.ico"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+<link rel="stylesheet" href="/css/ocean.css">
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">前端知识大汇总-npm</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">前端知识大汇总-npm</h1>
+        <div class="stuff">
+            <span>十一月 30, 2018</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/前端/">前端</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>从今天开始，利用一些空闲时间开始整理以前自己接触到的一些前端后端知识，有些是自己使用过的，有的是网上搜罗的一些，也有是书上看到的。一些东西过一段时间不用，虽然有微许印象，但是总没有那种了然于胸的感觉，所以感觉写下来能好点，聊胜于无。</p>
+</blockquote>
+<p>npm，简而言之，就是前端包管理器，类似于后端开发Java中的maven或者gradle，使前端人员开发分享和复用代码变得更加容易。</p>
+<p>####安装npm</p>
+<p>npm的安装比较简单，它直接依赖于node，node安装好之后就自带npm，版本可能不是最新的，我们可以通过以下命令安装最新版本的npm：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g npm@latest</span><br></pre></td></tr></table></figure>
+<p>这是一个标准的安装包的命令：install可以简写为-i，-g意思就是全局安装，npm@latest就是npm的最新版本，这种name@version的书写方式就是为了定位一个js包，这种声明方式就类似于maven中的groupId + artifactId + version定位一个唯一jar一样。我们可以通过npm去官方仓库或者第三方仓库（国内一般会使用淘宝源）下载我们项目中使用到的一些包，或者也可以把我们自己封装的一个包推送到npm仓库，供别人分享使用。</p>
+<p>####package.json文件</p>
+<p>这个文件是用来管理本地安装npm包，试想一下，我们在编写一个项目的时候，可能要使用到好多公共包，什么名字，什么版本，这样就需要一个文件来统一管理，同时如果以后要创建一个类似项目，那么我们可以直接把package.json文件拷贝一份，npm install一下，一个同样的项目骨架就出来了，十分方便：</p>
+<ol>
+<li>描述项目需要哪些包；</li>
+<li>指定需要包的版本；</li>
+<li>同类项目构建可重复使用。</li>
+</ol>
+<ul>
+<li>创建package.json</li>
+</ul>
+<p>创建一个新目录，进入目录，输入npm init即可：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir test</span><br><span class="line">cd test</span><br><span class="line">npm init</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>根据提示一步步走完会自动生成，如果觉得麻烦，可以使用npm init –yes跳过指示步骤直接生成，大致如下</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"npm-test"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="attr">"description"</span>: <span class="string">"test"</span>,</span><br><span class="line">  <span class="attr">"main"</span>: <span class="string">"index.js"</span>,</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"test"</span>: <span class="string">"test"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"keywords"</span>: [</span><br><span class="line">    <span class="string">"test"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"author"</span>: <span class="string">"color"</span>,</span><br><span class="line">  <span class="attr">"license"</span>: <span class="string">"ISC"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一个标准的json文件：</p>
+<ol>
+<li>name：项目名称（字母小写）</li>
+<li>version：版本号</li>
+<li>description：描述信息</li>
+<li>main：入口文件</li>
+<li>scripts：支持脚本，一般我们可以在这里编写项目启动或者打包，test命令</li>
+<li>keywords：关键字</li>
+<li>author：作者</li>
+<li>license：协议</li>
+</ol>
+<p>生成的文件中是没有任何npm包依赖的，如果要安装依赖，有以下两种方式：</p>
+<ol>
+<li>npm install -save name@version</li>
+<li>在package.json中增加dependencies，value是个对象，然后填写key(name):value(version)，最后npm install一下</li>
+</ol>
+<p>主要要注意一下不同命令的区别：</p>
+<p><strong>npm install X:</strong></p>
+<ul>
+<li>会把X包安装到node_modules目录中</li>
+<li>不会修改package.json</li>
+<li>之后运行npm install命令时，不会自动安装X</li>
+</ul>
+<p><strong>npm install X –save:</strong></p>
+<ul>
+<li>会把X包安装到node_modules目录中</li>
+<li>会在package.json的dependencies属性下添加X</li>
+<li>之后运行npm install命令时，会自动安装X到node_modules目录中</li>
+<li>之后运行npm install<br>–production或者注明NODE_ENV变量值为production时，会自动安装msbuild到node_modules目录中</li>
+</ul>
+<p><strong>npm install X –save-dev:</strong></p>
+<ul>
+<li>会把X包安装到node_modules目录中</li>
+<li>会在package.json的devDependencies属性下添加X</li>
+<li>之后运行npm install命令时，会自动安装X到node_modules目录中</li>
+<li>之后运行npm install<br>–production或者注明NODE_ENV变量值为production时，不会自动安装X到node_modules目录中</li>
+</ul>
+<ul>
+<li>使用npm安装的包</li>
+</ul>
+<p>install好的包会默认在node_modules，我们要使用的话直接在文件中require一下就好了。</p>
+<p><a href="https://blog.csdn.net/u011240877/article/details/76582670" target="_blank" rel="noopener">参考</a></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/1304716261.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/163/30987703.mp3'></li>
+                    
+                        <li title='2' data-url='http://link.hhtjim.com/163/32337953.mp3'></li>
+                    
+                        <li title='3' data-url='http://link.hhtjim.com/163/34152579.mp3'></li>
+                    
+                        <li title='4' data-url='http://link.hhtjim.com/163/35807051.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script src="/js/init.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
