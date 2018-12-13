@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>❀ 爱玩的心™深不见底°</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Lomo,"> 
+    <meta name="description" content="
+上一次主要介绍了Bootstrap源码的文件分类，没有进行重写样式的具体操作，这次以button样式为例记一次踩坑记录。
+
+只要用过Bootstrap的朋友应该都知道，它的button样式在点击后,"> 
+    <meta name="author" content="浅色"> 
+    <link rel="alternative" href="atom.xml" title="❀ 爱玩的心™深不见底°" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.ico"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+<link rel="stylesheet" href="/css/ocean.css">
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Bootstrap源码解析（二）</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Bootstrap源码解析（二）</h1>
+        <div class="stuff">
+            <span>十二月 13, 2018</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Bootstrap/">Bootstrap</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>上一次主要介绍了Bootstrap源码的文件分类，没有进行重写样式的具体操作，这次以button样式为例记一次踩坑记录。</p>
+</blockquote>
+<p>只要用过Bootstrap的朋友应该都知道，它的button样式在点击后默认是有一圈跟button颜色相近的东东（线条？outline？shadow？暂时先这样称呼），那么该如何去掉呢，网上大部分人的做法是引入bootstrap的样式后再引入自己的样式进行重写，但是我们要进行的是定制化，也就是在源码中修改。</p>
+<h3 id="踩坑记录"><a href="#踩坑记录" class="headerlink" title="踩坑记录"></a>踩坑记录</h3><p>一开始直接就从3方面修改：</p>
+<ol>
+<li>outline: 0；</li>
+<li>border: 0；</li>
+<li>box-shadow: none;</li>
+</ol>
+<p>神奇的是，怎么改都不起作用，自己重新写一个button之后按照上面的样式定义是起作用的，所以还是bootstrap的源码有些地方没修改到。</p>
+<h3 id="源码追查"><a href="#源码追查" class="headerlink" title="源码追查"></a>源码追查</h3><ol>
+<li>它的button样式都是.btn开头，首先我们去看这个的样式定义</li>
+</ol>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.btn</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">font-weight</span>: <span class="variable">$btn-font-weight</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="variable">$body-color</span>;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">vertical-align</span>: middle;</span><br><span class="line">  user-<span class="selector-tag">select</span>: none;</span><br><span class="line">  <span class="attribute">background-color</span>: transparent;</span><br><span class="line">  <span class="attribute">border</span>: <span class="variable">$btn-border-width</span> solid transparent;</span><br><span class="line">  @<span class="keyword">include</span> button-size(<span class="variable">$btn-padding-y</span>, <span class="variable">$btn-padding-x</span>, <span class="variable">$btn-font-size</span>, <span class="variable">$btn-line-height</span>, <span class="variable">$btn-border-radius</span>);</span><br><span class="line">  @<span class="keyword">include</span> transition(<span class="variable">$btn-transition</span>);</span><br><span class="line"></span><br><span class="line">  @<span class="keyword">include</span> hover &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="variable">$body-color</span>;</span><br><span class="line">    <span class="attribute">text-decoration</span>: none;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &amp;:focus,</span><br><span class="line">  &amp;<span class="selector-class">.focus</span> &#123;</span><br><span class="line">    <span class="attribute">outline</span>: <span class="number">0</span>;</span><br><span class="line">     <span class="attribute">box-shadow</span>: <span class="variable">$btn-focus-box-shadow</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Disabled comes first so active can properly restyle</span></span><br><span class="line">  &amp;<span class="selector-class">.disabled</span>,</span><br><span class="line">  &amp;:disabled &#123;</span><br><span class="line">    <span class="attribute">opacity</span>: <span class="variable">$btn-disabled-opacity</span>;</span><br><span class="line">    @<span class="keyword">include</span> box-shadow(none);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Opinionated: add "hand" cursor to non-disabled .btn elements</span></span><br><span class="line">  &amp;:not(:disabled):not(<span class="selector-class">.disabled</span>) &#123;</span><br><span class="line">    <span class="attribute">cursor</span>: pointer;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &amp;:not(:disabled):not(<span class="selector-class">.disabled</span>):active,</span><br><span class="line">  &amp;:not(:disabled):not(<span class="selector-class">.disabled</span>)<span class="selector-class">.active</span> &#123;</span><br><span class="line">     @<span class="keyword">include</span> box-shadow(<span class="variable">$btn-active-box-shadow</span>);</span><br><span class="line"></span><br><span class="line">    &amp;:focus &#123;</span><br><span class="line">       @<span class="keyword">include</span> box-shadow(<span class="variable">$btn-focus-box-shadow</span>, <span class="variable">$btn-active-box-shadow</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>发现他的outline有的地方没有定义，我直接在focus和active一级原有样式中都加了，并且暂时移除box-shadow这一项，但是并没有效果。</p>
+<ol start="2">
+<li>.btn是基础button样式，一般我们在用bootstrap button的时候都会加上.btn-类型颜色的样式，所以从着手：</li>
+</ol>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">each</span> <span class="variable">$color</span>, <span class="variable">$value</span> in <span class="variable">$theme-colors</span> &#123;</span><br><span class="line">  <span class="selector-class">.btn-</span>#&#123;<span class="variable">$color</span>&#125; &#123;</span><br><span class="line">    @<span class="keyword">include</span> button-variant(<span class="variable">$value</span>, <span class="variable">$value</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们看到其中引用了button-variant这个mixin，点进去查看：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">mixin</span> button-variant(<span class="variable">$background</span>, <span class="variable">$border</span>, <span class="variable">$hover-background</span>: darken(<span class="variable">$background</span>, 7.5%), <span class="variable">$hover-border</span>: darken(<span class="variable">$border</span>, 10%), <span class="variable">$active-background</span>: darken(<span class="variable">$background</span>, 10%), <span class="variable">$active-border</span>: darken(<span class="variable">$border</span>, 12.5%)) &#123;</span><br><span class="line">  <span class="attribute">color</span>: color-yiq(<span class="variable">$background</span>);</span><br><span class="line">  @<span class="keyword">include</span> gradient-bg(<span class="variable">$background</span>);</span><br><span class="line">  <span class="attribute">border-color</span>: <span class="variable">$border</span>;</span><br><span class="line">  @<span class="keyword">include</span> box-shadow(<span class="variable">$btn-box-shadow</span>);</span><br><span class="line"></span><br><span class="line">  @<span class="keyword">include</span> hover &#123;</span><br><span class="line">    <span class="attribute">color</span>: color-yiq(<span class="variable">$hover-background</span>);</span><br><span class="line">    @<span class="keyword">include</span> gradient-bg(<span class="variable">$hover-background</span>);</span><br><span class="line">    <span class="attribute">border-color</span>: <span class="variable">$hover-border</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &amp;:focus,</span><br><span class="line">  &amp;<span class="selector-class">.focus</span> &#123;</span><br><span class="line">    <span class="comment">// Avoid using mixin so we can pass custom focus shadow properly</span></span><br><span class="line">    @<span class="keyword">if</span> <span class="variable">$enable-shadows</span> &#123;</span><br><span class="line">      <span class="attribute">box-shadow</span>: <span class="variable">$btn-box-shadow</span>, <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="variable">$btn-focus-width</span> rgba(mix(color-yiq(<span class="variable">$background</span>), <span class="variable">$border</span>, <span class="number">15%</span>), .<span class="number">5</span>);</span><br><span class="line">    &#125; @<span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="variable">$btn-focus-width</span> rgba(mix(color-yiq(<span class="variable">$background</span>), <span class="variable">$border</span>, <span class="number">15%</span>), .<span class="number">5</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它有这么一个变量$enable-shadows，就是开不开启阴影效果，在variables中定义是关闭的，但是它的else逻辑会走另一个box-shadow逻辑，点进去发现btn-focus-width定义为.2rem，将其改为0之后解决问题，当然我们也可以去掉else中的逻辑，同样可以解决，建议修改变量方式，后面要添加阴影效果可以灵活改变。</p>
+<blockquote>
+<p>总结一下，Bootstrap预置了好多变量，如果我们要修改某一个组件样式的话，应该从源码一步一步找到对应定义变量，然后在变量上做修改，不论是修改还是维护都很方便，就放在variable.scss这个文件中，它的变量定义后面都加了!default，意思就是如果前面没有定义这个变量的话，就采用这个默认值，所以我们在修改的时候可以创建一个我们自己的variables.scss文件，然后在其中写入要修改的变量以及值，这样的好处就是如果bootstrap进行升级的话，可以进行平滑过渡而不用修改任何东西。</p>
+</blockquote>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/1304716261.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/163/30987703.mp3'></li>
+                    
+                        <li title='2' data-url='http://link.hhtjim.com/163/32337953.mp3'></li>
+                    
+                        <li title='3' data-url='http://link.hhtjim.com/163/34152579.mp3'></li>
+                    
+                        <li title='4' data-url='http://link.hhtjim.com/163/35807051.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script src="/js/init.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

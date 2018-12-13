@@ -30,7 +30,7 @@
     <div class="bar" style="width: 0;"></div>
     <a class="icon-home image-icon" href="javascript:;"></a>
     <div title="播放/暂停" class="icon-play"></div>
-    <h3 class="subtitle">Angular Material2初体验</h3>
+    <h3 class="subtitle">Vscode使用过程中一些操作疑问</h3>
     <div class="social">
         <!--<div class="like-icon">-->
             <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
@@ -47,94 +47,38 @@
     <div class="section">
         <div class="article">
     <div class='main'>
-        <h1 class="title">Angular Material2初体验</h1>
+        <h1 class="title">Vscode使用过程中一些操作疑问</h1>
         <div class="stuff">
-            <span>九月 26, 2018</span>
+            <span>十二月 06, 2018</span>
             
-  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Angular/">Angular</a></li></ul>
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Vscode/">Vscode</a></li></ul>
 
 
         </div>
         <div class="content markdown">
-            <p><a href="https://material.angular.io/" target="_blank" rel="noopener">官方文档</a></p>
-<blockquote>
-<p>官网上对于版本之类的没有进行说明，开始踩了一些坑，compile各种报错，最后发现是angular版本之类的问题导致的包依赖不存在，感觉官方文档是写给大佬看的，对于初学者不是很友好。总之最后成功了就好，就当锻炼了一番折腾能力。</p>
+            <blockquote>
+<p>现在的前端项目基本都是基于node搭建，使用npm进行包管理的，node_modules中的文件结构深且多，在Webstorm中打开总是感觉卡，如果exclude掉这个目录，好多代码没有提示功能，跟编辑器没啥区别。所以跟着大家的步伐，学着使用Vscode，第一感觉就是不卡，至于一些插件功能正在摸索中，其中遇到的一些问题记录在此，以后会不定时更新。</p>
 </blockquote>
-<h4 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h4><p>笔者所使用的Material是版本2了，再使用官网给出的命令安装的时候@material前缀的模块都是6.0+的版本，依赖的Angular版本也需要是6.0以上的。你也可以使用5.0版本的，反正Angular版本和你安装的Angular Material版本必须要一致，否则就会出现跟我类似的包依赖问题。</p>
-<ul>
-<li>安装node（直接去<a href="https://nodejs.org/zh-cn/" target="_blank" rel="noopener">官网</a>下载点击安装即可）</li>
-<li>安装Angular-cli（后边的命令安装的默认是最新版本）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g @angular/cli</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h4><pre><code>1.初始化angular项目
-    #material-demo是项目名称
-    ng new material-demo
-2.安装material相关依赖
-    cd material-demo
-    npm install --save @angular/material @angular/cdk @angular/animations
-3.配置material的动画和引入使用组件模块
-    将BrowserAnimationsModule加入到你项目的AppModule中。
-    import {BrowserModule} from &apos;@angular/platform-browser&apos;;
-    import {NgModule} from &apos;@angular/core&apos;;
+<h4 id="html书写css提示问题"><a href="#html书写css提示问题" class="headerlink" title="html书写css提示问题"></a>html书写css提示问题</h4><p>vscode肯定内置了这方面的插件，为了保险我还专门安装了一些path，css之类的引用插件，但是书写html的时候还是没有提示，最后将饮用的.min.css换成css文件就好了。</p>
 
-    import {AppComponent} from &apos;./app.component&apos;;
-    import {BrowserAnimationsModule} from &apos;@angular/platform-browser/animations&apos;;
-    import {MaterialBaseModule} from &apos;./common/material-base.module&apos;;
-    import {NavComponent} from &apos;./nav/nav.component&apos;;
-    import {LayoutModule} from &apos;@angular/cdk/layout&apos;;
-    import {
-        MatToolbarModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatListModule,
-        MatGridListModule,
-        MatCardModule,
-        MatMenuModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatSortModule
-    } from &apos;@angular/material&apos;;
-    import {DashboardComponent} from &apos;./dashboard/dashboard.component&apos;;
-    import {TableComponent} from &apos;./table/table.component&apos;;
-
-    @NgModule({
-        declarations: [
-            AppComponent,
-            NavComponent,
-            DashboardComponent,
-            TableComponent
-        ],
-        imports: [
-            BrowserModule,
-            BrowserAnimationsModule,
-            MaterialBaseModule,
-            LayoutModule,
-            MatToolbarModule,
-            MatButtonModule,
-            MatSidenavModule,
-            MatIconModule,
-            MatListModule,
-            MatGridListModule,
-            MatCardModule,
-            MatMenuModule,
-            MatTableModule,
-            MatPaginatorModule,
-            MatSortModule
-        ],
-        providers: [],
-        bootstrap: [AppComponent]
-    })
-    export class AppModule {
-    }
-4.这时候已经可以在页面上直接使用了，但是没有任何样式，官方预置了4套样式
-    在项目中的style.css中加入 @import &quot;~@angular/material/prebuilt-themes/indigo-pink.css&quot;;
-5.此时可以在页面中加入各种material组件了，最简单的就是从官方组件中copy代码归来放入页面即可。
-</code></pre>
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
-                <source type="audio/mpeg" src="http://link.hhtjim.com/163/1304716261.mp3">
+                <source type="audio/mpeg" src="">
             </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/1304716261.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/163/30987703.mp3'></li>
+                    
+                        <li title='2' data-url='http://link.hhtjim.com/163/32337953.mp3'></li>
+                    
+                        <li title='3' data-url='http://link.hhtjim.com/163/34152579.mp3'></li>
+                    
+                        <li title='4' data-url='http://link.hhtjim.com/163/35807051.mp3'></li>
+                    
+                </ul>
             
         </div>
         
