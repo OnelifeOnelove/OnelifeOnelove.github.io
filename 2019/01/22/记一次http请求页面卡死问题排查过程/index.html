@@ -27,7 +27,7 @@
     <div class="bar" style="width: 0;"></div>
     <a class="icon-home image-icon" href="javascript:;"></a>
     <div title="播放/暂停" class="icon-play"></div>
-    <h3 class="subtitle">Mac上使用Webstorm或Idea卡顿问题</h3>
+    <h3 class="subtitle">记一次http请求页面卡死问题排查过程</h3>
     <div class="social">
         <!--<div class="like-icon">-->
             <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
@@ -44,33 +44,45 @@
     <div class="section">
         <div class="article">
     <div class='main'>
-        <h1 class="title">Mac上使用Webstorm或Idea卡顿问题</h1>
+        <h1 class="title">记一次http请求页面卡死问题排查过程</h1>
         <div class="stuff">
-            <span>十月 30, 2018</span>
+            <span>一月 22, 2019</span>
             
-  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Mac/">Mac</a></li></ul>
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/bug/">bug</a></li></ul>
 
 
         </div>
         <div class="content markdown">
-            <blockquote>
-<p>背景：Mac本上安装了JetBrains家的Idea以及WebStorm，升级新系统Mojave后开始喜新厌旧了，直接将旧版本的这两个直接卸载了，重新安装最新的EAP版本（免费的旗舰版，但是每个月会失效，要重新安装一次）。安装之后发现码字有2-3s的延迟，开始以为是版本问题，重新下载了18年1月版的发现同样存在延迟问题，研究了下问题终于解决，记下来以备后用。</p>
-</blockquote>
-<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p>  开始想着是软件优化问题，大家都知道JetBrains家的产品是好用，但是吃内存，所以Google一下进行优化：</p>
-<ul>
-<li><p>配置优化</p>
-<p>  关闭自动更新，统计，不用的功能或plugin等，总之是一切与当前工作无关的尽量关掉。</p>
-</li>
-<li><p>启动参数优化</p>
-<p>  工具栏Help-&gt;Edit Custom VM Options，配置改为一下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-Xms1024m</span><br><span class="line">-Xmx1536m</span><br><span class="line">-XX:MaxPermSize=1024m</span><br><span class="line">-XX:ReservedCodeCacheSize=512m</span><br><span class="line">-XX:+UseCompressedOops</span><br><span class="line">-Dfile.encoding=UTF-8</span><br><span class="line">-XX:+UseConcMarkSweepGC</span><br><span class="line">-XX:SoftRefLRUPolicyMSPerMB=50</span><br><span class="line">-ea</span><br><span class="line">-Dsun.io.useCanonCaches=false</span><br><span class="line">-Djava.net.preferIPv4Stack=true</span><br><span class="line">-Djdk.http.auth.tunneling.disabledSchemes=&quot;&quot;</span><br><span class="line">-XX:+HeapDumpOnOutOfMemoryError</span><br><span class="line">-XX:-OmitStackTraceInFastThrow</span><br><span class="line">-XX:MaxJavaStackTraceDepth=10000</span><br><span class="line">-Xverify:none</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="延迟解决"><a href="#延迟解决" class="headerlink" title="延迟解决"></a>延迟解决</h3><p>优化后重启发现延迟依然存在，在Google的时候发现一个观点说Mac的分辨率会影响JetBrains家的卡顿，双方都存在问题，遂把字体改大后发现没有卡顿了。但是实在不喜欢调大后的Mac界面，偶尔一次修改WebStorm的字体发现问题不存在了：</p>
-<p>我在安装了WebStorm之后是安装了Material Theme UI，使用了其中的Ocean主题，修改字体为Meslo LG后发现延迟问题不存在了。</p>
+            <p>问题：开发和生产上线的代码一样，但是不通环境的页面请求响应时间差别很大（生产正常，开发普通接口正常，但是开发环境上只要是文件上传就会页面卡顿很久，生产是好的）。开始是让后端排查问题，没有发现可疑地方，领导让前端配合定位一下问题，通过Chrome的network发现请求Stalled竟然达到了恐怖的2min。</p>
+<p>请求描述：前端上传文件前期是和表单字段一起提交，使用的FormData形式，后期搭建了文件服务器，表单和文件上传是分开的，此次解决的API都是FormData形式的提交。</p>
 <blockquote>
-<p>总结：修改的这个字体是我美化Iterm2 + oh my zsh时候安装的，所以猜测是Mac字体调小后使用WebStorm部分字体会有延迟现象。</p>
+<p>Chrome浏览器查看请求时间分布</p>
 </blockquote>
+<p>Chrome浏览器Console中自带的Network可以查看http请求相关的东西，点开一个请求会有4个选项：Headers，Preview，Response，Timing，其中Timing标签下就是请求整个用时分段展示：</p>
+<ol>
+<li>Queueing</li>
+<li>Stalled</li>
+<li>Request sent</li>
+<li>Waiting（TTFB）</li>
+<li>Content Download</li>
+</ol>
+<p>Queueing是在HTTP1.0版本下Chrome浏览器默认对同一个域名同时支持6个并发，如果超过这个限制就会阻塞最近的请求等待有用连接释放，不同浏览器限制不通，大致在2-8之间，HTTP2.0是没有这种限制的；Stalled就是在等待Queueing的时间；Request sent是请求开始发送，这个时间一般都在1ms之内；Waiting就是请求发出后直到服务器返回第一个字节为止的时间，这个时间越短越好，Chrome官方文档上建议这个时间应该控制在300ms以内。</p>
+<p>看到这结合实际出现的场景，理所当然的把问题定位在了并发连接问题上，但是理性分析一波，用户在本地单操作，不会存在超过6个并发限制的操作，而且从Time Line上并没有发现这一阻塞情况。经过多次反复测试，发现这个阻塞时间有时在stalled，有时在sent上，这时候要是能看到请求的具体分段时间就可以很容易定位问题所在。</p>
+<blockquote>
+<p>Chrome浏览器官方插件提取请求具体时间文件</p>
+</blockquote>
+<p><a href="https://chromium.googlesource.com/catapult/+/master/netlog_viewer/" target="_blank" rel="noopener">Chrome官方请求时间分析文件提取</a></p>
+<p>照着官方文档步骤获取一次file上传请求的时间提取文件，然后打开文档中提到的<a href="https://netlog-viewer.appspot.com/" target="_blank" rel="noopener">文件分析在线地址</a>，导入刚才的文件进行查看，直接点击左侧菜单中的Events选项进去可以看到刚才的请求，点选请求后在右侧可以查看具体的过程：</p>
+<ol>
+<li>t=19381</li>
+<li>[st = 0]</li>
+<li>[dt = 31005]</li>
+</ol>
+<p>时间单位时ms，第一列应该是绝对时间，也就是当前时间戳，第二列就是这个请求到每个阶段所花时间的累积，第三列是第二列的反向记录。</p>
+<p>同时提取生产和开发环境的同一个的file上传请求，对两个文件进行对比分析法下，请求过程中都没有出错，上传文件大小一样，开始发送请求之前的时间差距在100ms之内，请求返回开发是300ms，生产是30ms，这也没有太大差距，但是开发完成整个请求花费31s，而正式只需要1s，只要差距就在HTTP_TRANSACTION_SEND_REQUEST_BODY（UPLOAD_DATA_STREAM_READ）这个动作上，同样的文件，都是在本地测试，代码一样，不同的是服务器，所以定位到是开发服务器带宽和性能问题。</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="http://fex.baidu.com/blog/2015/01/chrome-stalled-problem-resolving-process/" target="_blank" rel="noopener">一个同样莫名其妙问题</a></p>
+<p><a href="https://developers.google.com/web/tools/chrome-devtools/network-performance/reference#timing-explanation" target="_blank" rel="noopener">Chrome官方network解释</a></p>
+<p><a href="https://chromium.googlesource.com/catapult/+/master/netlog_viewer/" target="_blank" rel="noopener">请求文件获取官方文档</a></p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
