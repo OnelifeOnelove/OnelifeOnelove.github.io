@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>❀ 爱玩的心™深不见底°</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Lomo,"> 
+    <meta name="description" content="最近没事在看Bootstrap v4的源码，感觉它的命名很有意思，于是网上搜索了一番，发现了一个新东西：BEM。这是个什么东西呢，引用官网的描述：
+
+BEM (Block, Element, Mod,"> 
+    <meta name="author" content="浅色"> 
+    <link rel="alternative" href="atom.xml" title="❀ 爱玩的心™深不见底°" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.ico"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+<link rel="stylesheet" href="/css/ocean.css">
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">CSS命名规范---BEM规范</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">CSS命名规范---BEM规范</h1>
+        <div class="stuff">
+            <span>二月 13, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Css/">Css</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>最近没事在看Bootstrap v4的源码，感觉它的命名很有意思，于是网上搜索了一番，发现了一个新东西：BEM。这是个什么东西呢，引用<a href="https://en.bem.info/methodology/quick-start/" target="_blank" rel="noopener">官网</a>的描述：</p>
+<blockquote>
+<p>BEM (Block, Element, Modifier) is a component-based approach to web development. The idea behind it is to divide the user interface into independent blocks. This makes interface development easy and fast even with a complex UI, and it allows reuse of existing code without copying and pasting.</p>
+</blockquote>
+<p>简而言之，就是更好的复用。BEM是block（块），element（元素）和modifier（修饰符）三个单词的首字母，是由Yandex团队提出的一种前端命名方法论。它的命名约定更加严格，对于其他开发者来说也更加透明且更有意义。</p>
+<h3 id="释义"><a href="#释义" class="headerlink" title="释义"></a>释义</h3><ul>
+<li><p>Block</p>
+<p>块，代表了页面上一个可以复用的组件，意思就是你要描述一个什么东西，比如菜单，按钮之类的，不包含状态，是更高级别的一种抽象。</p>
+</li>
+<li><p>Element</p>
+<p>元素，一个块中的多个元素后代，比如我有一个form块，里边包含了input，button之类的，那么这些就是块的元素，元素集合组成块。</p>
+</li>
+<li><p>Modifier</p>
+<p>修饰符，它描述的是appearance（比如size，theme），state（比如禁用），behavior（比如定位），可以修饰块，也可以修饰元素。</p>
+</li>
+</ul>
+<h3 id="命名约定"><a href="#命名约定" class="headerlink" title="命名约定"></a>命名约定</h3><ul>
+<li>官方</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 单独一个块</span><br><span class="line"><span class="selector-class">.block</span>&#123;&#125;</span><br><span class="line">// 块 + 元素</span><br><span class="line"><span class="selector-class">.block__element</span>&#123;&#125;</span><br><span class="line">// 块 + 修饰符</span><br><span class="line"><span class="selector-class">.block_modifier</span></span><br><span class="line">// 块 + 元素 + 修饰符</span><br><span class="line"><span class="selector-class">.block__element_modifier</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="http://nicolasgallagher.com/about-html-semantics-front-end-architecture" target="_blank" rel="noopener">Nicolas Gallagher修改过的</a></li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 单独一个块</span><br><span class="line"><span class="selector-class">.block</span>&#123;&#125;</span><br><span class="line">// 块 + 元素</span><br><span class="line"><span class="selector-class">.block__element</span>&#123;&#125;</span><br><span class="line">// 块 + 修饰符</span><br><span class="line"><span class="selector-class">.block--modifier</span></span><br><span class="line">// 块 + 元素 + 修饰符</span><br><span class="line"><span class="selector-class">.block__element--modifier</span></span><br></pre></td></tr></table></figure>
+<p>两者不同的地方就在于modifier的连接，官方是用_，而后者采用–，看起来更有意义。这与传统的全部-连接更具有视觉上的分辨，让开发者可以更容易的看到dom的结构组成。虽然第一眼看上去很怪，但是更具有维护意义。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>举个最简单的例子，页面顶部，这可以看成页面的一个组件，在BEM规范中就是一个块，我们可以封装一下，如果其他部分要用到类似的顶部结构，可以直接拿来使用。我们假想顶部栏中有以下4个东西：</p>
+<ol>
+<li>logo</li>
+<li>名字</li>
+<li>一个搜索框（搜索菜单栏用的）</li>
+<li>用户头像（可以进入用户信息界面）</li>
+</ol>
+<p>接下来我们用BEM规范来构建一下css：</p>
+<p>首先，这是一个块，我们起名为header，块中有4个元素，就是我们上说的4个，同时我们给顶部设置2套不同颜色的主题，input框加一个激活样式，最后生成的结构如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header header--black"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header__logo"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header__text"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header__input header__input--focus"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header__img"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当然，这只是最简单的一种形式，我们完全可以块嵌套，元素嵌套组成更复杂的BEM Css结构。这其中有一点特殊的要注意，就是元素之间的嵌套，多层嵌套不要把上一层的class名字添加到下一层的类名前，引用官方的一个案例：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    Correct. The structure of the full element name follows the pattern:</span></span><br><span class="line"><span class="comment">    `block-name__element-name`</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">class</span>=<span class="string">"search-form"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"search-form__content"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"search-form__input"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"search-form__button"</span>&gt;</span>Search<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    Incorrect. The structure of the full element name doesn't follow the pattern:</span></span><br><span class="line"><span class="comment">    `block-name__element-name`</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">class</span>=<span class="string">"search-form"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"search-form__content"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Recommended: `search-form__input` or `search-form__content-input` --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"search-form__content__input"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- Recommended: `search-form__button` or `search-form__content-button` --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"search-form__content__button"</span>&gt;</span>Search<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上面写的很清楚，嵌套之内的元素也是块的组成部分，我们应该按照block__element的形式进行命名，而不是根据父级元素的命名走。</p>
+<blockquote>
+<p>不论是传统的-命名，还是BEM规范，它们都是为了css的简化理解和维护，而BEM规范在这点上更有说服力，这对于前端开发者来说是一个相当有价值的规范，极力推荐大家使用。</p>
+</blockquote>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/1304716261.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/163/30987703.mp3'></li>
+                    
+                        <li title='2' data-url='http://link.hhtjim.com/163/32337953.mp3'></li>
+                    
+                        <li title='3' data-url='http://link.hhtjim.com/163/34152579.mp3'></li>
+                    
+                        <li title='4' data-url='http://link.hhtjim.com/163/35807051.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script src="/js/init.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
