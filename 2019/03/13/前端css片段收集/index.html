@@ -30,7 +30,7 @@
     <div class="bar" style="width: 0;"></div>
     <a class="icon-home image-icon" href="javascript:;"></a>
     <div title="播放/暂停" class="icon-play"></div>
-    <h3 class="subtitle">如何升级node和npm</h3>
+    <h3 class="subtitle">前端css片段收集</h3>
     <div class="social">
         <!--<div class="like-icon">-->
             <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
@@ -47,39 +47,28 @@
     <div class="section">
         <div class="article">
     <div class='main'>
-        <h1 class="title">如何升级node和npm</h1>
+        <h1 class="title">前端css片段收集</h1>
         <div class="stuff">
-            <span>一月 14, 2019</span>
+            <span>三月 13, 2019</span>
             
-  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Node/">Node</a></li></ul>
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/前端/">前端</a></li></ul>
 
 
         </div>
         <div class="content markdown">
             <blockquote>
-<p>今天去node官网看了下稳定版竟然已经到11了，看了下我本机的才8.9，果断升级一波。</p>
+<p>前端开发中经常会有特殊样式处理，比如文本多余显示省略号，还有一些浏览器兼容特殊处理，比较杂，本文旨在收集一些经常用到的css片段，后面用到的话可以更方便的获取。暂时很少，后续会一直添加。</p>
 </blockquote>
-<p>ps：最常用的就是重新去官网直接下载最新的node安装包，然后覆盖安装，路径没有发生变化的话就不用配置path可以直接生效，如果安装路径发生变化的话还要配置一下path，比较麻烦。但是，linux和mac本上有一个mode模块n，可以用来管理node版本。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 安装n</span><br><span class="line">npm i -g n</span><br><span class="line">// 安装最新稳定版node</span><br><span class="line">sudo n stable</span><br><span class="line">// 安装最新发布版的node</span><br><span class="line">sudo n latest</span><br><span class="line">// 完成后查看版本</span><br><span class="line">node -v</span><br><span class="line">// 如果没有成功的话可以清除下缓存重新来一遍</span><br><span class="line">sudo npm cache clean -f</span><br><span class="line"></span><br><span class="line">// 更新npm</span><br><span class="line">npm i -g npm</span><br><span class="line">// 查看npm版本</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+<h5 id="文本超长处理"><a href="#文本超长处理" class="headerlink" title="文本超长处理"></a>文本超长处理</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">white-space: nowrap; //保证文本内容不会自动换行，如果多余的内容会在水平方向撑破单元格。</span><br><span class="line">overflow: hidden; //隐藏超出单元格的部分。</span><br><span class="line">text-overflow: ellipsis; //将被隐藏的那部分用省略号代替。</span><br></pre></td></tr></table></figure>
+<h5 id="数字或字母自动换行"><a href="#数字或字母自动换行" class="headerlink" title="数字或字母自动换行"></a>数字或字母自动换行</h5><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">word-break</span>: <span class="selector-tag">break-all</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="IE10-img-height-auto没有高度"><a href="#IE10-img-height-auto没有高度" class="headerlink" title="IE10 img height=auto没有高度"></a>IE10 img height=auto没有高度</h5><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// &lt;img width="100%" height="auto"/&gt;</span><br><span class="line">// 这种标签在ie10没有高度，默认展示1px，我们可以在css样式中重写height解决</span><br><span class="line"><span class="selector-tag">height</span>: <span class="selector-tag">auto</span> !<span class="selector-tag">important</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="清除浮动"><a href="#清除浮动" class="headerlink" title="清除浮动"></a>清除浮动</h5><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box clearfix"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"floated"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"floated"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"floated"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">''</span>;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">clear</span>: both;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.floated</span> &#123;</span><br><span class="line">    <span class="attribute">float</span>: left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
-                <source type="audio/mpeg" src="">
+                <source type="audio/mpeg" src="https://link.hhtjim.com/163/419594258.mp3">
             </audio>
-            
-                <ul id="audio-list" style="display:none">
-                    
-                        <li title='0' data-url='http://link.hhtjim.com/163/1304716261.mp3'></li>
-                    
-                        <li title='1' data-url='http://link.hhtjim.com/163/30987703.mp3'></li>
-                    
-                        <li title='2' data-url='http://link.hhtjim.com/163/32337953.mp3'></li>
-                    
-                        <li title='3' data-url='http://link.hhtjim.com/163/34152579.mp3'></li>
-                    
-                        <li title='4' data-url='http://link.hhtjim.com/163/35807051.mp3'></li>
-                    
-                </ul>
             
         </div>
         
