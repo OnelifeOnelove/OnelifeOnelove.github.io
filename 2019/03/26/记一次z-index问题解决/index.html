@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>❀ 爱玩的心™深不见底°</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Lomo,"> 
+    <meta name="description" content="
+前端开发中经常会有特殊样式处理，比如文本多余显示省略号，还有一些浏览器兼容特殊处理，比较杂，本文旨在收集一些经常用到的css片段，后面用到的话可以更方便的获取。暂时很少，后续会一直添加。
+
+文本超,"> 
+    <meta name="author" content="浅色"> 
+    <link rel="alternative" href="atom.xml" title="❀ 爱玩的心™深不见底°" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.ico"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+<link rel="stylesheet" href="/css/ocean.css">
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">记一次z-index问题解决</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">记一次z-index问题解决</h1>
+        <div class="stuff">
+            <span>三月 26, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Css/">Css</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>最近前端的一个项目进行代码重构，主要是页面搜索框样式重构：将原来进入页面默认展示的搜索条件隐藏起来，第一点击搜索的时候弹出搜索条件框，然后可以进行条件搜索。这其中搜索条件框因为要隐藏展示，所以外层包了一个新的div。在我写的页面中有一个fullcalendar日历插件的展示，因为有事件标记（events），生成的dom中具有z-index属性以显示层次结构，该页面的搜索框中有一个机构树展示插件，点击input进行树的展示，树因为要展示在其他之上使用了z-index: 900，此为背景。问题来了，更换了搜索框之后，点击树展示后层次老是位于日历插件之下，文字几乎被覆盖了，开始以为只是简单的z-index改大就可以了，排查了半天才发现问题，记录下来以备后用。</p>
+<h4 id="position问题"><a href="#position问题" class="headerlink" title="position问题"></a>position问题</h4><blockquote>
+<p>The <a href="http://www.w3.org/TR/CSS21/visuren.html#z-index" target="_blank" rel="noopener"><code>z-index</code></a> property only works on elements with a <a href="http://www.w3.org/TR/CSS21/visuren.html#propdef-position" target="_blank" rel="noopener"><code>position</code></a> value other than <code>static</code> (e.g. <code>position: absolute;</code>, <code>position: relative;</code>, or <code>position: fixed</code>).</p>
+</blockquote>
+<blockquote>
+<p>There is also <code>position: sticky;</code> that is supported in Firefox, is prefixed in Safari, worked for a time in older versions of Chrome under a custom flag, and is under consideration by Microsoft to add to their Edge browser.</p>
+</blockquote>
+<p>这是stackoverflow上的一个回答，意思就是z-index只对设置有position属性（不能是static）的dom元素有效，我的树position: absolute明显满足这个条件。</p>
+<h4 id="float问题"><a href="#float问题" class="headerlink" title="float问题"></a>float问题</h4><p>对于float这种问题我的明显不存在，树组件只有一个div套了一个ul，是上下结构的，直接排出。</p>
+<h4 id="真正问题"><a href="#真正问题" class="headerlink" title="真正问题"></a>真正问题</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123; </span><br><span class="line">    <span class="attribute">border</span>: <span class="number">2px</span> solid <span class="number">#000</span>; </span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>; </span><br><span class="line">    <span class="attribute">height</span>: <span class="number">30px</span>; </span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">10px</span>; </span><br><span class="line">    <span class="attribute">position</span>: relative; </span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#FFF</span>; </span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#el3</span> &#123; </span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#F0F</span>; </span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>; </span><br><span class="line">    <span class="attribute">height</span>: <span class="number">60px</span>; </span><br><span class="line">    <span class="attribute">top</span>: -<span class="number">50px</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"el1"</span> <span class="attr">style</span>=<span class="string">"z-index: 5"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"el2"</span> <span class="attr">style</span>=<span class="string">"z-index: 3"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"el3"</span> <span class="attr">style</span>=<span class="string">"z-index: 8"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>看上面这段代码，el1和el2是上下关系，el2包含el3，el3大于el2，顶出去了，根据z-index的设置，从上到下顺序是el3—el1—el2，但真实情况是el1—el3—el2，无论el3的z-index设置多大，它都永远位于el1下，这是因为el3的父元素el2的z-index是小于el1的，无论怎么设置，el3都会在el1之下。</p>
+<p>前面说了，我们的搜索框要进行隐藏和展示操作，外层包了一层新的div，去代码里查看这个新div的样式，发现有个z-index：1，而页面上的日历插件中的部分dom的属性z-index都是4或者5，这下就找到问题所在了，直接把新div的样式z-index修改为10就好了。</p>
+<blockquote>
+<p>样式是别人写的，不了解为什么要加z-index这个属性，搜索框的隐藏和展示并不涉及元素的碰撞或者叠加，去掉这个属性展示也是ok的。总之找到了问题所在，算是给自己增加了一点技能。</p>
+</blockquote>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/1304716261.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/163/30987703.mp3'></li>
+                    
+                        <li title='2' data-url='http://link.hhtjim.com/163/32337953.mp3'></li>
+                    
+                        <li title='3' data-url='http://link.hhtjim.com/163/34152579.mp3'></li>
+                    
+                        <li title='4' data-url='http://link.hhtjim.com/163/35807051.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script src="/js/init.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
