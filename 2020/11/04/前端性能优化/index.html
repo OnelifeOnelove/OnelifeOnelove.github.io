@@ -28,7 +28,7 @@
     <div class="bar" style="width: 0;"></div>
     <a class="icon-home image-icon" href="javascript:;"></a>
     <div title="播放/暂停" class="icon-play"></div>
-    <h3 class="subtitle">Vscode使用过程中一些操作疑问</h3>
+    <h3 class="subtitle">前端性能优化</h3>
     <div class="social">
         <!--<div class="like-icon">-->
             <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
@@ -45,38 +45,44 @@
     <div class="section">
         <div class="article">
     <div class='main'>
-        <h1 class="title">Vscode使用过程中一些操作疑问</h1>
+        <h1 class="title">前端性能优化</h1>
         <div class="stuff">
-            <span>十二月 06, 2018</span>
+            <span>十一月 04, 2020</span>
             
-  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Vscode/">Vscode</a></li></ul>
-
 
         </div>
         <div class="content markdown">
-            <blockquote>
-<p>现在的前端项目基本都是基于node搭建，使用npm进行包管理的，node_modules中的文件结构深且多，在Webstorm中打开总是感觉卡，如果exclude掉这个目录，好多代码没有提示功能，跟编辑器没啥区别。所以跟着大家的步伐，学着使用Vscode，第一感觉就是不卡，至于一些插件功能正在摸索中，其中遇到的一些问题记录在此，以后会不定时更新。</p>
-</blockquote>
-<h4 id="html书写css提示问题"><a href="#html书写css提示问题" class="headerlink" title="html书写css提示问题"></a>html书写css提示问题</h4><p>vscode肯定内置了这方面的插件，为了保险我还专门安装了一些path，css之类的引用插件，但是书写html的时候还是没有提示，最后将饮用的.min.css换成css文件就好了。</p>
+            <p>之前的一篇HTTP缓存说到了从用户输入url到页面渲染的整个过程和http的缓存实现方式，在此基础上我们从多个方面对页面性能进行优化。</p>
+<h2 id="一-DNS解析优化"><a href="#一-DNS解析优化" class="headerlink" title="一. DNS解析优化"></a>一. DNS解析优化</h2><p>​        我们可以通过购买好的域名解析服务来达到快速解析DNS的目的，可以保证我们的网站可以更高效和稳定的提供访问服务。</p>
+<h2 id="二-资源压缩（是否合并根据HTTP版本来确定）"><a href="#二-资源压缩（是否合并根据HTTP版本来确定）" class="headerlink" title="二. 资源压缩（是否合并根据HTTP版本来确定）"></a>二. 资源压缩（是否合并根据HTTP版本来确定）</h2><p>​        主要包含HTML，CSS和JavaScript以及其他资源文件的压缩，节省带宽，加快访问，一般都是通过Webpack或者其他打包工具来完成。</p>
+<ul>
+<li><p><strong>HTTP1</strong></p>
+<p>HTTP1主要因为一个连接一次只能处理一个请求，并且浏览器有并发请求限制，所以前端的优化手段主要是合并文件，保证请求越少越好，比如合并文件，雪碧图，在此基础上进行域名分片，以达到减少请求阻塞的目的。</p>
+</li>
+<li><p><strong>HTTP2</strong></p>
+<p>HTTP2由于采用了IO多路复用，一个连接可以处理多个请求，所以我们的优化手段主要是减少文件大小。</p>
+</li>
+</ul>
+<p>打包的时候我们一般都会进行Vendor（依赖包，版本不动基本不会变动）和Chunk（我们自己写的代码）分离，一方面是为了更好的利用浏览器缓存，另一方面则是为按需加载做铺垫，达到更好的加载效果。</p>
+<h2 id="三-非核心代码按需加载"><a href="#三-非核心代码按需加载" class="headerlink" title="三. 非核心代码按需加载"></a>三. 非核心代码按需加载</h2><p>​        除了核心代码以外，保证每访问一个页面都只加载当前页面需要的资源，而不是在首屏访问时全部加载，比如在配置Router文件的时候懒加载，只有访问的时候才去加载。</p>
+<h2 id="四-合理利用浏览器缓存"><a href="#四-合理利用浏览器缓存" class="headerlink" title="四. 合理利用浏览器缓存"></a>四. 合理利用浏览器缓存</h2><p>​        上一片文章介绍了强缓存和协商缓存，我们应该合理的进行运用：</p>
+<ul>
+<li><p><strong>变动不多的资源</strong></p>
+<p>比如静态资源文件，我们可以使用强缓存，利用<em>Cache-Control</em>和<em>Max-age</em>=xxxx使其在一段时间内可以利用缓存，如果服务端发生变动，我们打包的时候一般都会生成hash码，也就相当于路径变化，会去请求最新的资源。</p>
+</li>
+<li><p><strong>变动频繁的资源</strong></p>
+<p>比如一个频繁写入的文件，我们可以使用协商缓存，利用<em>ETag</em>字段来做缓存处理。</p>
+</li>
+</ul>
+<h2 id="五-使用CDN"><a href="#五-使用CDN" class="headerlink" title="五. 使用CDN"></a>五. 使用CDN</h2><p>​        浏览器缓存始终只是为了做二次缓存，对于首次访问加速，除了按需加载外，我们可以通过CDN加速访问，通过将资源部署到离用户最近的服务节点上以达到快速访问目的。</p>
+<h2 id="六-预解析"><a href="#六-预解析" class="headerlink" title="六. 预解析"></a>六. 预解析</h2><p>​        资源预加载可以告诉浏览器未来会加载哪些内容，通过提前加载的方式来加快访问速度。比如我们的图片或者文件等资源是单独部署在一个服务器上，这时候我们可以在HTML顶部加入以下标签通过提前解析DNS的方式加快访问：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"dns-prefetch"</span> <span class="attr">href</span>=<span class="string">"//example.com"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当然我们也可以预加载一些其他资源。</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
-                <source type="audio/mpeg" src="">
+                <source type="audio/mpeg" src="https://link.hhtjim.com/163/31370984.mp3">
             </audio>
-            
-                <ul id="audio-list" style="display:none">
-                    
-                        <li title='0' data-url='http://link.hhtjim.com/163/1304716261.mp3'></li>
-                    
-                        <li title='1' data-url='http://link.hhtjim.com/163/30987703.mp3'></li>
-                    
-                        <li title='2' data-url='http://link.hhtjim.com/163/32337953.mp3'></li>
-                    
-                        <li title='3' data-url='http://link.hhtjim.com/163/34152579.mp3'></li>
-                    
-                        <li title='4' data-url='http://link.hhtjim.com/163/35807051.mp3'></li>
-                    
-                </ul>
             
         </div>
         
