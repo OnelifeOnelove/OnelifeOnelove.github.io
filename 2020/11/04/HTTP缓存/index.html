@@ -27,7 +27,7 @@
     <div class="bar" style="width: 0;"></div>
     <a class="icon-home image-icon" href="javascript:;"></a>
     <div title="播放/暂停" class="icon-play"></div>
-    <h3 class="subtitle">MAC使用命令行连接远程服务器并实现上传下载</h3>
+    <h3 class="subtitle">HTTP缓存</h3>
     <div class="social">
         <!--<div class="like-icon">-->
             <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
@@ -44,46 +44,91 @@
     <div class="section">
         <div class="article">
     <div class='main'>
-        <h1 class="title">MAC使用命令行连接远程服务器并实现上传下载</h1>
+        <h1 class="title">HTTP缓存</h1>
         <div class="stuff">
-            <span>十月 16, 2018</span>
+            <span>十一月 04, 2020</span>
             
-  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/MAC/">MAC</a></li></ul>
-
 
         </div>
         <div class="content markdown">
-            <blockquote>
-<p>之前使用Windows笔记本的时候和Mac使用初期，连接远程Linux服务器都使用的诸如CRT或者Xshell这类图形化工具，自从Xshell收费之后，Mac上也使用了一些破解版的ssh连接管理软件，老感觉差点什么。Mac本身提供了远程ssh连接功能，并能实现文件上传和下载，对于程序员很有帮助。</p>
-</blockquote>
-<h3 id="连接远程主机"><a href="#连接远程主机" class="headerlink" title="连接远程主机"></a>连接远程主机</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ssh 用户名@远程主机ip</span><br><span class="line">ssh root@0.0.0.0</span><br></pre></td></tr></table></figure>
-<h3 id="文件上传和下载"><a href="#文件上传和下载" class="headerlink" title="文件上传和下载"></a>文件上传和下载</h3><ul>
-<li>向服务器上传文件</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># scp -r 本地文件路径 远程主机用户@远程主机ip:远程文件路径</span><br><span class="line"># -r上传目录有用，上传单文件可以不加</span><br><span class="line">scp /user/logo.png root@0.0.0.0:/usr/</span><br></pre></td></tr></table></figure>
+            <p>前端开发好的页面是直接面向用户的，如果打开页面的加载时间过久，会直接影响体验或者被用户直接关掉。所以前端的性能事关重要，那我们如何优化来提高页面加载性能呢？首先要了解从用户输入一个网址到页面呈现出来整个过程，依次对这些过程进行优化。</p>
+<h2 id="输入URL到页面渲染过程"><a href="#输入URL到页面渲染过程" class="headerlink" title="输入URL到页面渲染过程"></a>输入URL到页面渲染过程</h2><ol>
+<li><p><strong>DNS解析</strong></p>
+<p>当用户通过域名访问的时候，首先浏览器会去找域名对应的ip地址，整个过程如下：</p>
+<ol>
+<li>首先会去浏览器缓存找是否访问过此域名，有则使用，没有进入下一步；</li>
+<li>本地HOST文件寻找，没有进入下一步；</li>
+<li>本地服务提供商（简称ISP）查找，没有进入下一步；</li>
+<li>首先向根域名服务器发送DNS查询请求，返回可能保存了该域名的一级域名服务器地址；本地主机再根据返回的地址，向一级域名服务器发送查询请求，一直迭代直到找到对应的域名存放的服务器，向其发送DNS查询请求，返回域名对应的ip。</li>
+</ol>
+</li>
+<li><p><strong>TCP/IP连接</strong></p>
+<p>三次握手</p>
+</li>
+<li><p><strong>浏览器发起请求下载所需资源</strong></p>
+</li>
+<li><p><strong>浏览器渲染</strong></p>
+<p>拿到从服务器下载的静态资源后，浏览器会开始解析html，css及js进行渲染：</p>
+<ol>
+<li>解析HTML构建DOM树</li>
+<li>解析CSS构建CSS DOM</li>
+<li>两者合并生成Render tree</li>
+<li>layout render tree</li>
+<li>根据render tree进行渲染</li>
+</ol>
+</li>
+<li><p><strong>断开连接</strong></p>
+<p>四次挥手</p>
+</li>
+</ol>
+<h2 id="HTTP缓存"><a href="#HTTP缓存" class="headerlink" title="HTTP缓存"></a>HTTP缓存</h2><p><img src="https://cdn.jsdelivr.net/gh/OnelifeOnelove/images@main/assets/3884731615-5b5eb9db0731a_articlex.png" alt="3884731615-5b5eb9db0731a_articlex"></p>
+<ol>
+<li><p><strong>强缓存</strong></p>
+<p>浏览器直接从本地获取的缓存，不需要服务器参与，主要是根据时间来判断缓存是否有效：</p>
 <ul>
-<li>从服务器下载文件</li>
+<li><p><em>Expires</em></p>
+<p>HTTP/1.0的产物，保存一个缓存失效的绝对时间，超过这个时间则缓存失效</p>
+</li>
+<li><p><em>Cache-Control</em></p>
+<p>HTTP/1.1的产物，是一个相对时间，要加上开始时间进行判定，常用指令如下：</p>
+<ul>
+<li><em>no-cache</em>：不使用强缓存，需要使用协商缓存，这个字面意思容易混淆</li>
+<li><em>no-store</em>：禁用缓存</li>
+<li><em>public</em>：表明响应可以被任何对象（包括：发送请求的客户端，代理服务器，等等）缓存，该响应对应的请求方法是POST</li>
+<li><em>private</em>：表明响应只能被单个用户缓存，不能作为共享缓存（即代理服务器不能缓存它）</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># scp -r 用户名@远程主机ip:远程文件路径 本地文件路径</span><br><span class="line"># -r下载目录有用，下载单文件可以不加</span><br><span class="line">scp root@0.0.0.0:/usr/test /user/</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>浏览器会优先处理<em>Cache-Control</em>，经过两个判断后，如果命中缓存，则直接返回200，使用本地缓存；如果未命中，则进入协商缓存判断。</p>
+</li>
+<li><p><strong>协商缓存</strong></p>
+<p>强缓存有一个缺点，就是服务器端内容有更新的话，而客户端还是使用旧的缓存，所以需要服务器判断缓存是否可用，也就是协商缓存。</p>
+<ul>
+<li><p><em>Last-Modified</em>和<em>If-Modified-Since</em></p>
+<p>文件最后修改时间，以秒计，判断过程如下：</p>
+<ol>
+<li>浏览器从服务端下载资源时，服务器会在响应头上添加<em>Last-Modified</em>字段，表明该字段的最后修改时间；</li>
+<li>浏览器再次向服务器请求资源时（未命中强缓存），会在请求头中添加<em>If-Modified-Since</em>字段，它的值是上次响应报文中的<em>ETag</em>的值；</li>
+<li>服务器拿到请求头中的值，与资源的最新值做比较，如果相通，则命中缓存，直接返回304，表明浏览器可以继续使用本地缓存；如果不同，则返回200状态码和最新的资源。</li>
+</ol>
+<p>对于频繁变动的资源，由于该字段是以秒计时，如果1s内进行多次修改，服务器还是认为其命中了缓存，会存在误差；还有另外一种情况，比如我变动了文件，内容并没有变，但是服务器还是会生成新的最后修改时间，所以会有性能消耗。</p>
+</li>
+<li><p><em>ETag</em>和<em>If-None-Match</em>（优先，精度比上面好）</p>
+<p>根据文件内容生成一个唯一标志字符，过程如下：</p>
+<ol>
+<li>浏览器请求资源，服务器会在返回头中加<em>ETag</em>字段，资源内容变动时<em>Etag</em>随之改变；</li>
+<li>浏览器再次请求时，会在请求头中加<em>If-None-Match</em>字段，也就是上次返回的<em>Etag</em>值；</li>
+<li>浏览器取出请求头中的<strong>If-None-Match</strong>字段与文件最新的<em>ETag</em>做对比，如果相同则返回304，否则返回200和最新资源。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
-                <source type="audio/mpeg" src="">
+                <source type="audio/mpeg" src="https://link.hhtjim.com/163/31370984.mp3">
             </audio>
-            
-                <ul id="audio-list" style="display:none">
-                    
-                        <li title='0' data-url='http://link.hhtjim.com/163/1304716261.mp3'></li>
-                    
-                        <li title='1' data-url='http://link.hhtjim.com/163/30987703.mp3'></li>
-                    
-                        <li title='2' data-url='http://link.hhtjim.com/163/32337953.mp3'></li>
-                    
-                        <li title='3' data-url='http://link.hhtjim.com/163/34152579.mp3'></li>
-                    
-                        <li title='4' data-url='http://link.hhtjim.com/163/35807051.mp3'></li>
-                    
-                </ul>
             
         </div>
         
