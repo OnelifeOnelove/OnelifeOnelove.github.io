@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>❀ 爱玩的心™深不见底°</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Lomo,"> 
+    <meta name="description" content="前言记得很早之前在某技术论坛中看到过这么一句话：一个项目70%的时间都是在看代码（维护），只有30%的时间在开发。在多人协作开发的时代，规范化显得极其重要，就好比一个公司没有规章制度一样，人多了肯定,"> 
+    <meta name="author" content="浅色"> 
+    <link rel="alternative" href="atom.xml" title="❀ 爱玩的心™深不见底°" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.ico"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+<link rel="stylesheet" href="/css/ocean.css">
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">ESLint + Prettier前端语法检测和规范格式化</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">ESLint + Prettier前端语法检测和规范格式化</h1>
+        <div class="stuff">
+            <span>十二月 23, 2020</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>记得很早之前在某技术论坛中看到过这么一句话：一个项目70%的时间都是在看代码（维护），只有30%的时间在开发。在多人协作开发的时代，规范化显得极其重要，就好比一个公司没有规章制度一样，人多了肯定乱套，开发如果没有规范的话，人越多，项目越大的情况下只会导致后期维护极其困难，在某些极端条件下可能重构都比修改更快一些。提高开发效率和高可维护性有多种方式，比如工程化（目录结构统一，快速定位），模块化（隔离），组件化（复用）和规范化，我们这里主要说一下前端规范化。</p>
+<h1 id="不规范化的坏处"><a href="#不规范化的坏处" class="headerlink" title="不规范化的坏处"></a>不规范化的坏处</h1><ol>
+<li><p>提交代码时候的diff</p>
+<p>如果有一个公共文件需要多个人同时修改，比如模块化的router或者api文件，假如一个人格式化代码，另一个人没有格式化，那么在合并文件的时候显示的是整个文件合并冲突，对于解决冲突有很大的心智负担。</p>
+</li>
+<li><p>维护别人的代码或者新人加入项目时，熟悉和修改代码成本高</p>
+<p>每个人写代码风格不一样，没有统一的规范，假如在接手别人的功能或者新人加入项目时，看代码犹如天书一样，可能一个简单的功能调整花费不了多少时间，但是看懂别人的代码却花费了大半天，开发效率极速下降。</p>
+</li>
+</ol>
+<h1 id="ESLint"><a href="#ESLint" class="headerlink" title="ESLint"></a>ESLint</h1><blockquote>
+<p>Find and fix problems in your JavaScript code.</p>
+</blockquote>
+<p>这是ESLint官网的解释，直译就是发现并修复你的JS代码，简言之就是JS语法检测工具，也附带了一些格式化规则。</p>
+<ul>
+<li>发现问题</li>
+<li>自动修复</li>
+<li>定制化</li>
+</ul>
+<h1 id="Prettier"><a href="#Prettier" class="headerlink" title="Prettier"></a>Prettier</h1><blockquote>
+<p>Prettier is an opinionated code formatter with support for many languages, It removes all original styling<a href="https://prettier.io/docs/en/index.html#footnotes" target="_blank" rel="noopener">*</a> and ensures that all outputted code conforms to a consistent style. </p>
+</blockquote>
+<ul>
+<li>保存自动格式化代码</li>
+<li>统一的样式</li>
+<li>节省开发时间，加快开发效率</li>
+<li>对新人友好</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/OnelifeOnelove/images@main/assets/16412d535a2e4cc4-20201216160627979.gif" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/OnelifeOnelove/images@main/assets/1" alt=""></p>
+<h1 id="VSCode"><a href="#VSCode" class="headerlink" title="VSCode"></a>VSCode</h1><p>ESLint和Prettier提供了多IDE或编辑器的支持，前端一般用的最多的就属Jetbrains家的WebStorm或者近几年火爆的VSCode，两者对比如下：</p>
+<ul>
+<li><p>WebStorm开箱即用（IDE），VSCode轻巧</p>
+<p>WebStorm集成了前端开发所需的一系列插件，可以直接上手使用，而VSCode则需要自己做一些定制化配置或插件安装</p>
+</li>
+<li><p>WebStorm跳转，输入提示更强大，VSCode更智能</p>
+<p>在打开一个前端项目的时候，WebStorm默认加载了node_modules中的第三方插件，在编写代码时会自动弹出提示，而VSCode只能自带js提示或者通过安装插件的方式支持第三方插件写法，比如vue，react等，当然官方出了Visual Studio IntelliCode这个插件，利用AI来加快开发。</p>
+</li>
+<li><p>WebStorm耗性能</p>
+<p>WebStorm因为自带插件多，且在打开项目时会默认把当前项目下的文件都加入缓存中以供后续方便使用，当然可以通过exclude来排除加载，但是代码提示会随之消失；而VSCode作为一款编辑器，天生就灵活，即使安装了一系列插件，总体上还是比WebStorm更快的。</p>
+</li>
+<li><p>Webstorm需要付费，VSCode开源免费</p>
+</li>
+<li><p>都支持主题设置，个人感觉VSCode更好看</p>
+</li>
+<li><p>在ESLint和Prettier集成上VSCode更方便</p>
+<p>VSCode集成后通过添加配置<strong><em>autoFix: true</em></strong>即可开启保存自动格式化，而WebStorm集成后需要手动处理，如果需要自动化，那就需要添加watcher或者宏定义来支持，WebStorm本来就吃性能，如果加上会感觉卡顿。</p>
+</li>
+</ul>
+<h1 id="VSCode集成ESLint和Prettier"><a href="#VSCode集成ESLint和Prettier" class="headerlink" title="VSCode集成ESLint和Prettier"></a>VSCode集成ESLint和Prettier</h1><h3 id="项目集成"><a href="#项目集成" class="headerlink" title="项目集成"></a>项目集成</h3><ul>
+<li>ESLint</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 安装eslint</span></span><br><span class="line">npm i -D eslint</span><br><span class="line"><span class="comment">// 项目中新建.eslintrc.js配置规则，.eslintignore文件可以设置哪些文件不需要校验</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Prettier</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 安装prettier</span></span><br><span class="line">npm i -D prettier</span><br><span class="line"><span class="comment">// 新建.prettierrc.js配置格式化规则，.prettierignore可以配置哪些文件不需要校验</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>ESLint与Prettier集成</li>
+</ul>
+<p>因为ESLint自带一些格式化规则，而Prettier是专门做格式化的，两者集成在一起必然会产生冲突，解决方式如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将prettier作为eslint的一项校验规则，有交集的地方会发生冲突</span></span><br><span class="line">npm i -D eslint-plugin-prettier</span><br><span class="line"><span class="comment">// 发生冲突的地方使用此插件进行配置，从而达到eslint校验语法，prettier进行格式化</span></span><br><span class="line">npm i -D eslint-config-prettier</span><br></pre></td></tr></table></figure>
+<h3 id="VSCode集成"><a href="#VSCode集成" class="headerlink" title="VSCode集成"></a>VSCode集成</h3><ul>
+<li>ESLint</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/OnelifeOnelove/images@main/assets/iShot2020-12-17 12.37.26.png" alt=""></p>
+<ul>
+<li>Prettier</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/OnelifeOnelove/images@main/assets/iShot2020-12-17 12.38.58.png" alt="iShot2020-12-17 12.38.58"></p>
+<p>集成后VSCode中都可以打开settings进行这两个插件的配置，默认会带一些规则，校验的时候首先会去项目下找<em>.eslintrc.js</em>和<em>.prettierrc.js</em>配置文件，没有则根据VSCode自带配置进行校验。默认情况下代码如果出现语法错误，ESLint会检测到并显示在problems中，如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/OnelifeOnelove/images@main/assets/iShot2020-12-17 12.43.20.png" alt="iShot2020-12-17 12.43.20"></p>
+<p>而Prettier则需要手动调用格式化快捷键来触发。</p>
+<ul>
+<li>保存自动格式化</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/OnelifeOnelove/images@main/assets/iShot2020-12-17 12.45.20.png" alt="iShot2020-12-17 12.45.20"></p>
+<p>在VSCode添加此配置后可以在写完代码点击保存后自动触发prettier格式化文件，当然我们也可以配置eslint自动fix，但是个人感觉没有必要，因为在书写代码时，出现语法错误会有醒目红色提示，我们可以直接进行纠正，如果让eslint自动fix，有些错误它也无法修复（比如我们写了一半的语句，它并不能理解），同时也可以提高vscode性能。那么如果我们在书写代码时遇到eslint因为懒不想去改怎么办，我们可以在package.json中配置一条自动检测和修复语句来实现：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/OnelifeOnelove/images@main/assets/iShot2020-12-17 12.50.47.png" alt=""></p>
+<p>直接调用<em>npm run lint</em>或者<em>yarn lint</em>即可实现自动修复。上面截图用的是vue-cli3集成的eslint校验，eslint本身也提供了校验语句，可以根据项目自行配置。</p>
+<h1 id="提交代码自动校验"><a href="#提交代码自动校验" class="headerlink" title="提交代码自动校验"></a>提交代码自动校验</h1><p>经过上面项目和编辑器（VSCode）的集成，自认为ESLint和Prettier已经完美集成，但是现实总是打脸的。大部分开发人员都很反感这种校验，因为刚开始时会加重开发负担，所以会在自己本地通过修改配置的方式去掉这两个插件的校验，最后将代码提交，又会出现我们一开始所说的问题。那怎么办呢，代码写完总是要提交的，那么我们可以在提交代码时利用git提供的hooks来实现对代码进行校验和修复，如果不通过，则不允许提交，这就使用了下面所说的插件：husky和lint-staged。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install lint-staged husky -D</span><br></pre></td></tr></table></figure>
+<h3 id="集成"><a href="#集成" class="headerlink" title="集成"></a>集成</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">"husky": &#123;</span><br><span class="line">  "hooks": &#123;</span><br><span class="line">    "pre-commit": "lint-staged"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line">"lint-staged": &#123;</span><br><span class="line">  "*.&#123;js,json,css,scss&#125;": ["prettier --write", "git add"]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上配置意思就是在commit之前会利用prettier对配置的文件进行格式化，当然我们也可以配置eslint自动fix，如果校验通过则提交成功，否则git commit会报错，这也就解决了我们上面所说的问题。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本篇文章主要讲述如何使用ESLint和Prettier在VSCode上实现前端代码保存自动格式化，从而提高代码规范性和可维护性。当然对于开发来说，还有好多可以规范的地方，比如git分支（git-flow），提交信息规范化（commitlog）或者使用rebase替代merge等等很多，可能前期使用起来会有些痛苦，但是养成习惯之后很自然顺畅，能保证代码在一定程度上的规范性，对于后期维护代码有很大的帮助。其他一些规范命名，代码逻辑优化啊，或者通过ES新版本语法简化代码等都可以减少代码量并提高可读性，这些平时自己可以通过学习和实践去总结。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="https://link.hhtjim.com/163/542667073.mp3">
+            </audio>
+            
+        </div>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script src="/js/init.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
